@@ -482,6 +482,8 @@ Error message and password prompt
 
 <li>Creation and annihilation operators</li>
 
+<li>Cutting lines in CNTs</li>
+
 <li>Data structures</li>
 
 <li>Density Functional Theory</li>
@@ -591,6 +593,8 @@ Error message and password prompt
 <li>Todo list</li>
 
 <li>Transport theory</li>
+
+<li>Trigonal warping effect in CNT</li>
 
 <li>Trim string in C++</li>
 
@@ -9604,10 +9608,10 @@ Error message and password prompt
 <div created="20171016164354286" creator="amirhossein" modified="20171016164354286" modifier="amirhossein" title="$:/state/toc/TableOfContents-Inactive todo list--81657105">
 <pre>open</pre>
 </div>
-<div created="20171024203234769" creator="amirhossein" modified="20171027175506470" modifier="amirhossein" title="$:/state/toc/TableOfContents-Monte-Carlo simulation of the exciton diffusion in CNT film--81657105">
+<div created="20171024203234769" creator="amirhossein" modified="20171031163740087" modifier="amirhossein" title="$:/state/toc/TableOfContents-Monte-Carlo simulation of the exciton diffusion in CNT film--81657105">
 <pre>close</pre>
 </div>
-<div created="20171012170914192" creator="amirhossein" modified="20171027175507451" modifier="amirhossein" title="$:/state/toc/TableOfContents-Quantum mechanics--81657105">
+<div created="20171012170914192" creator="amirhossein" modified="20171031163749933" modifier="amirhossein" title="$:/state/toc/TableOfContents-Quantum mechanics--81657105">
 <pre>close</pre>
 </div>
 <div created="20171012170937937" modified="20171012200122790" title="$:/state/toc/TableOfContents-Quantum mechanics-497309061">
@@ -9646,7 +9650,7 @@ Error message and password prompt
 <div created="20171013164602952" creator="a" modified="20171013164604296" modifier="amirhossei" title="$:/status/UserName">
 <pre>amirhossein</pre>
 </div>
-<div list="Main" title="$:/StoryList">
+<div list="[[Carbon nanotubes]] [[Trigonal warping effect in CNT]] [[Cutting lines in CNTs]] Main" title="$:/StoryList">
 <pre></pre>
 </div>
 <div created="20171016170115329" creator="amirhossein" list="$:/core/ui/Buttons/more-tiddler-actions $:/core/ui/Buttons/info $:/core/ui/Buttons/new-here $:/core/ui/Buttons/new-journal-here $:/core/ui/Buttons/clone $:/core/ui/Buttons/export-tiddler $:/core/ui/Buttons/edit $:/core/ui/Buttons/delete $:/core/ui/Buttons/permalink $:/core/ui/Buttons/permaview $:/core/ui/Buttons/open-window $:/core/ui/Buttons/close-others $:/core/ui/Buttons/close $:/core/ui/Buttons/fold-others $:/core/ui/Buttons/fold $:/core/ui/Buttons/fold-bar" modified="20171018203530490" modifier="amirhossein" title="$:/tags/ViewToolbar">
@@ -10142,8 +10146,8 @@ This plugin also requires the JSZip plugin ([[$:/plugins/tiddlywiki/jszip]]) to 
 <div created="20171004183451638" creator="amirhossein" modified="20171018174619418" modifier="amirhossein" title="$:/temp/RemoteAssetSearch/$:/config/OfficialPluginLibrary">
 <pre></pre>
 </div>
-<div created="20170926155030687" creator="amirhossein" modified="20171027175502937" modifier="amirhossein" title="$:/temp/search">
-<pre></pre>
+<div created="20170926155030687" creator="amirhossein" modified="20171031163809993" modifier="amirhossein" title="$:/temp/search">
+<pre>carbon</pre>
 </div>
 <div created="20171018174617758" creator="amirhossein" modified="20171018174617758" modifier="amirhossein" tags="$:/tags/ServerConnection" title="$:/temp/ServerConnection/http://tiddlywiki.com/library/v5.1.14/index.html" url="http://tiddlywiki.com/library/v5.1.14/index.html">
 <pre>loaded</pre>
@@ -10347,8 +10351,12 @@ $$
 e^{A+B} = e^A e^B e^{-c/2}
 $$</pre>
 </div>
-<div created="20171005202403289" modified="20171005202548493" title="Carbon nanotubes">
+<div created="20171005202403289" creator="amirhossein" modified="20171031190751344" modifier="amirhossein" tags="TableOfContents" title="Carbon nanotubes">
 <pre>Carbon nanotubes are tubes made of rolled graphene sheets with diameters as small as 1 nm.
+
+We can use [[cutting lines|Cutting lines in CNTs]] to calculate electronic and phononic energy dispersions in CNTs.
+
+[[Trigonal warping effect|Trigonal warping effect in CNT]] refers to the fact that the equi-energy contours change from a circle to a triangular shape with increasing energy.
 
 ! Reading list
 * [[Physical properties of low-dimensional sp2-based carbon nanostructures|https://journals.aps.org/rmp/pdf/10.1103/RevModPhys.88.025005]] (reviews of modern physics, 2016)</pre>
@@ -10437,6 +10445,43 @@ $$
 
 $$
 [\hat{n}_i, a^\dagger_j] = +\delta_{ij} \times a_j
+$$</pre>
+</div>
+<div created="20171031164353448" creator="amirhossein" modified="20171031195007459" modifier="amirhossein" tags="[[Carbon nanotubes]]" title="Cutting lines in CNTs">
+<pre>! Group theory origins
+&gt; these remarks are just general speculations and further investigation is needed to validate or prove them.
+
+According to the group theory, the energy states can be divided into bands where within each band a specific quantum number is kept constant.
+
+Moreover, Each quantum number arises from a certain symmetry operation that keeps the Hamiltonian, $$H$$, invariant.
+
+Therefore, it is possible that the states on multiple cutting lines belong to the same band because they conserve the same quantum number.
+
+! What is ''helical quantum number''?
+
+! Representations
+* $$\vec{K}_1$$ is the reciprocal lattice vector perpendicular to the CNT axis.
+*$$\vec{K}_2$$ is the reciprocal lattice vector parallel to the CNT axis.
+
+''$$K_1$$-extended representation'': cutting lines are //short// and there are many cutting lines distributed along the $$\vec{K}_1$$ direction.
+
+''$$K_2$$-extended representation'': cutting lines are //long// and there are few cutting lines distributed along the $$\vec{K}_1$$ direction.
+
+''Fully reduced'': is somewhere in between where only cutting lines laying inside graphene Brillouine zone is accepted.
+
+! Equivalency of representations
+We know that different representations lead to similar band structures because moving the cutting lines using the reciprocal lattice vector, $$\vec{G}$$,
+$$
+E_n(\vec{k}) = E_n(\vec{k}+\vec{G}).
+$$
+
+&gt; It seems that we can say two representations or two unit cells are equivalent if the choice between the two representations does not affect the physical phenomena they describe. ''Using this definition show that the three representations used above are equivalent.''
+
+! Linear momentum vs angular momentum
+Because of the concept of cutting lines, it seems that linear momentum, $$k$$, and angular moementum, $$\mu$$, are related quantities, because following along one cutting line by means of increasing the linear momentum would lead to a cutting line with a different momentum.
+
+$$
+(k+q)\vec{K}_2 + \mu \vec{K}_2 = k\vec{K}_2 + (\mu+\mu') \vec{K}_2 + \vec{G} \quad \Rightarrow \quad (k+q,\mu) \sim (k,\mu+\mu')
 $$</pre>
 </div>
 <div created="20171023021227774" creator="amirhossein" modified="20171023021715939" modifier="amirhossein" tags="Coding" title="Data structures">
@@ -11874,6 +11919,15 @@ There are quantum mechanical theories of the transport phenomena based on:
 Various simulation methods are used in transport theory
 
 * [[Monte Carlo|Monte-Carlo technique]]</pre>
+</div>
+<div created="20171031190800683" creator="amirhossein" modified="20171031191506204" modifier="amirhossein" tags="[[Carbon nanotubes]]" title="Trigonal warping effect in CNT">
+<pre>Trigonal warping effect refers to the fact that the equi-energy contours change from a circle to a triangular shape with increasing energy.
+
+For SWNT with diameters of around 1~2 nm and for excitation energies below 3 eV, which is the usual situation for observation of the resonant Raman scattering in SWNT the trigonal warping effect becomes the most important of the three effects which differentiate DFT results from nearest-neighbor tight binding method:
+
+# Effect of curvature on $$\gamma_0$$.
+# The inclusion of the tight binding overlap integral, $$s$$, which is associated with the asymmetry between valence and conduction bands in graphene.
+# The trigonal warping effect.</pre>
 </div>
 <div created="20171027193433113" creator="amirhossein" modified="20171027193746499" modifier="amirhossein" tags="Coding" title="Trim string in C++">
 <pre>!What's the best way to trim std::string?
