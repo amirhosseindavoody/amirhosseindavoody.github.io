@@ -204,6 +204,8 @@ Error message and password prompt
 
 <li>$:/state/showeditpreview</li>
 
+<li>$:/state/sidebar</li>
+
 <li>$:/state/tab--2112689675</li>
 
 <li>$:/state/tab--86143343</li>
@@ -9657,6 +9659,9 @@ Error message and password prompt
 <div created="20171228190802192" creator="amirhossein" modified="20171228223113655" modifier="amirhossein" title="$:/state/showeditpreview">
 <pre>yes</pre>
 </div>
+<div created="20171229173751156" creator="amirhossein" modified="20171229173751156" modifier="amirhossein" title="$:/state/sidebar">
+<pre>no</pre>
+</div>
 <div created="20171228201546317" creator="amirhossein" modified="20171228201546317" modifier="amirhossein" title="$:/state/tab--2112689675">
 <pre>$:/core/ui/ControlPanel/Advanced</pre>
 </div>
@@ -11112,17 +11117,34 @@ $$.
 
 </pre>
 </div>
-<div created="20171031223704591" creator="amirhossein" modified="20171228223533914" modifier="amirhossein" tags="[[Carbon nanotubes]]" title="Excitons in CNTs">
+<div created="20171031223704591" creator="amirhossein" modified="20171229181753380" modifier="amirhossein" tags="[[Carbon nanotubes]]" title="Excitons in CNTs">
 <pre>! Problem statement
 
 Interaction kernels are in the following form
 $$
-\mathcal{K}_x (k_c,k_v;k_c',k_v' ) = \delta (k_v-k_c, k_v'-k_c')\times \sum_{b,b'} C^*_{cb}(k_c) C_{vb}(k_v) C_{cb'}(k_c') C_{vb'}^*(k_v') v_{b,b'}(k_c-k_v).
+\mathcal{K}^x (k_c,k_v;k_c',k_v' ) = \delta_{k_v-k_c, k_v'-k_c'}\times \sum_{b,b'} C^*_{cb}(k_c) C_{vb}(k_v) C_{cb'}(k_c') C_{vb'}^*(k_v') v_{b,b'}(k_c-k_v), 
 $$
 
-Due to the delta function, we decay from 4 degrees of freedom to 3 degrees of freedom.
+$$
+\mathcal{K}^d (k_c, k_v; k_c', k_v') = \delta_{k_v-k_c,k_v'-k_c'} \times \sum_{b,b'} C_{cb}^*(k_c) C_{cb}(k_c') C_{vb'}(k_v)C_{vb'}^*(k'_v) \frac{v_{b,b'}(k_c-k_c')}{\kappa \epsilon(k_c-k_c')},
+$$
 
-Given a certain $$k_c$$ and $$k_v$$
+$$
+\mathcal{K} = 2 \delta_\sigma \mathcal{K}^x - \mathcal{K}^d
+$$
+where $$k$$-vectors contain both translational and angular momentums.
+
+''Numerical solution:'' Given a certain $$K = k_c - k_v$$ it is apparent that the eigen value problems related to varius values of $$K$$ are decoupled. Therefore, we use the interaction matrix by sweeping $$k_c$$ and $$k_c'$$ over all the available electronic states and then proceeding to solve the eigen value of the following interaction matrix
+$$
+\begin{aligned}
+\mathcal{K} (k_c, k_c-K; k_c', k_c'-K) = &amp; ~ 2 \delta_\sigma \sum_{b,b'} C^*_{cb}(k_c) C_{vb}(k_c-K) C_{cb'}(k_c') C_{vb'}^*(k_c'-K) v_{b,b'}(K) \\
+&amp; ~~~ - \sum_{b,b'} C_{cb}^*(k_c) C_{cb}(k_c') C_{vb'}(k_c-K)C_{vb'}^*(k'_c - K) \frac{v_{b,b'}(k_c-k_c')}{\kappa \epsilon(k_c-k_c')}.
+\end{aligned}
+$$
+
+&gt; However, the dimensions of this matrix could be huge and impractical to solve, therefore, we need to find ways to consider states with large contributions to interaction kernel. 
+
+In order to solve this, we should know the behavior of $$v_{b,b'}(k)$$, $$\epsilon(k)$$, and coefficients $$C_{c/v, b}(k)$$.
 
 ! Problems with using full CNT unit cell
 
