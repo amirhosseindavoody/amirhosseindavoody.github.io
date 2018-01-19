@@ -424,6 +424,8 @@ Error message and password prompt
 
 <li>blue text snippet</li>
 
+<li>C++</li>
+
 <li>Carbon nanotubes</li>
 
 <li>Clip function</li>
@@ -437,6 +439,8 @@ Error message and password prompt
 <li>Cutting lines in CNTs</li>
 
 <li>Data structures</li>
+
+<li>Defining namespace aliases in C++</li>
 
 <li>Density Functional Theory</li>
 
@@ -9716,7 +9720,7 @@ Error message and password prompt
 <div created="20171228202730945" creator="amirhossein" modified="20180116203616544" modifier="amirhossein" title="$:/state/toc/TableOfContents-Carbon nanotubes--81657105">
 <pre>close</pre>
 </div>
-<div created="20171228191509349" creator="amirhossein" modified="20180119010825513" modifier="amirhossein" title="$:/state/toc/TableOfContents-Coding--81657105">
+<div created="20171228191509349" creator="amirhossein" modified="20180119195459073" modifier="amirhossein" title="$:/state/toc/TableOfContents-Coding--81657105">
 <pre>close</pre>
 </div>
 <div created="20180103165606421" creator="amirhossein" modified="20180103192058363" modifier="amirhossein" title="$:/state/toc/TableOfContents-Machine learning--81657105">
@@ -9734,7 +9738,7 @@ Error message and password prompt
 <div created="20180103191952528" creator="amirhossein" modified="20180103192100520" modifier="amirhossein" title="$:/state/toc/TableOfContents/Coding-Node.js--81657105">
 <pre>close</pre>
 </div>
-<div created="20180103014811865" creator="amirhossein" modified="20180103192059458" modifier="amirhossein" title="$:/state/toc/TableOfContents/Coding-Snippets--81657105">
+<div created="20180103014811865" creator="amirhossein" modified="20180119195457438" modifier="amirhossein" title="$:/state/toc/TableOfContents/Coding-Snippets--81657105">
 <pre>close</pre>
 </div>
 <div created="20171013164602952" creator="a" modified="20171013164604296" modifier="amirhossei" title="$:/status/UserName">
@@ -10248,7 +10252,7 @@ This plugin also requires the JSZip plugin ([[$:/plugins/tiddlywiki/jszip]]) to 
 <div author="JeremyRuston" core-version="&gt;=5.0.0" created="20171228201339326" creator="amirhossein" dependents="" description="Basic theme" modified="20171228201339326" modifier="amirhossein" name="Vanilla" original-plugin-type="theme" original-tags="" original-title="$:/themes/tiddlywiki/vanilla" original-type="application/json" server-url="https://tiddlywiki.com/library/v5.1.15/index.html" tags="$:/tags/RemoteAssetInfo" title="$:/temp/RemoteAssetInfo/https://tiddlywiki.com/library/v5.1.15/index.html/$:/themes/tiddlywiki/vanilla" type="text/vnd.tiddlywiki" version="5.1.15">
 <pre></pre>
 </div>
-<div created="20171228190524977" creator="amirhossein" modified="20180119005842493" modifier="amirhossein" title="$:/temp/search">
+<div created="20171228190524977" creator="amirhossein" modified="20180119195456021" modifier="amirhossein" title="$:/temp/search">
 <pre></pre>
 </div>
 <div created="20171228201339320" creator="amirhossein" modified="20171228201339320" modifier="amirhossein" tags="$:/tags/ServerConnection" title="$:/temp/ServerConnection/https://tiddlywiki.com/library/v5.1.15/index.html" url="https://tiddlywiki.com/library/v5.1.15/index.html">
@@ -10411,7 +10415,7 @@ First slice is saved like a matrix and then the second slice is saved below that
 
 In the asynchronous command execution, commands are executed as soon as they can without any attention to the order in which they are written.</pre>
 </div>
-<div created="20171009185350183" modified="20171009193952098" tags="c++" title="auto specifier">
+<div created="20171009185350183" list="" modified="20180119195025053" modifier="amirhossein" tags="C++" title="auto specifier">
 <pre>!! Why use `auto&amp;&amp;` in a range-based for statement?
 ```cpp
 	for (auto&amp;&amp; a : array)
@@ -10495,6 +10499,9 @@ Now, .exe is just another of these compiled formats - one common to MS Windows. 
 </div>
 <div caption="blue text" created="20171101200301909" creator="amirhossein" modified="20171101200532821" modifier="amirhossein" tags="$:/tags/TextEditor/Snippet" title="blue text snippet">
 <pre>&lt;font color=blue&gt;  &lt;/font&gt;</pre>
+</div>
+<div created="20180119194902965" creator="amirhossein" modified="20180119195025052" modifier="amirhossein" tags="Coding" title="C++">
+<pre>This is a head tiddler for all the tiddlers related to c++.</pre>
 </div>
 <div created="20171005202403289" creator="amirhossein" modified="20171031190751344" modifier="amirhossein" tags="TableOfContents" title="Carbon nanotubes">
 <pre>Carbon nanotubes are tubes made of rolled graphene sheets with diameters as small as 1 nm.
@@ -10660,6 +10667,36 @@ The tree can be balanced (optimal) or unbalanced (unwanted).
 ! Binary tree
 * A tree with each node having at most two childs.
 * Can be used for searching. Best case (balanced tree) is O(log n).</pre>
+</div>
+<div created="20180119194821581" creator="amirhossein" modified="20180119195418624" modifier="amirhossein" tags="C++" title="Defining namespace aliases in C++">
+<pre>Use the following format
+
+```cpp
+namespace ns = long_name_space;
+```
+
+However, we cannot define namespaces within body of another class. Look at the following example. Also look at [[this|https://stackoverflow.com/questions/4884494/why-cant-we-declare-namespace-aliases-inside-a-class]] stack exchange question for some explanation.
+
+```cpp
+namespace A
+{
+}
+
+class C
+{
+  namespace N = A; // error: expected unqualified-id before `namespace'
+};
+
+class D
+{
+  void f();
+};
+
+void D::f()
+{
+  namespace N = A; // OK
+}
+```</pre>
 </div>
 <div created="20171005120145037" modified="20171005201740765" tags="physics DFT" title="Density Functional Theory">
 <pre>Density functional theory is a method for calculating the [[electronic band structure|Electronic band structure]]. DFT was originaly developed to deal with ground state properties, but later was generalized to describe excited state as well (see [[TDDFT|Time-dependent density functional theory]])
@@ -11920,7 +11957,7 @@ The webpage is using a clone of [[TiddlyWiki|http://tiddlywiki.com/]].
 
 Here is the [[table of contents|TableOfContents]].</pre>
 </div>
-<div created="20180119005851540" creator="amirhossein" modified="20180119010804092" modifier="amirhossein" tags="Coding c++" title="Make my custom type to work with “range-based for loops”" type="text/x-markdown">
+<div created="20180119005851540" creator="amirhossein" list="" modified="20180119195025053" modifier="amirhossein" tags="Coding C++" title="Make my custom type to work with “range-based for loops”" type="text/x-markdown">
 <pre>&gt; This piece info is taken from [here](https://stackoverflow.com/questions/8164567/how-to-make-my-custom-type-to-work-with-range-based-for-loops?answertab=active#tab-top) and saved for future references.
 
 The standard has been changed since the question (and most answers) were posted [in the resolution of this defect report](http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_defects.html#1442).
@@ -12410,7 +12447,7 @@ $$
 H = H_0 + e E_0 z
 $$</pre>
 </div>
-<div created="20171004213305615" modified="20171009185556667" tags="c++ coding" title="Static variables" type="text/vnd.tiddlywiki">
+<div created="20171004213305615" list="" modified="20180119195025053" modifier="amirhossein" tags="C++ coding" title="Static variables" type="text/vnd.tiddlywiki">
 <pre>* `static` member variables in classes need to be once ''declared'' in the header files and then `defined` separately in the cpp file. Like the following code
 
 
@@ -12560,7 +12597,7 @@ For SWNT with diameters of around 1~2 nm and for excitation energies below 3 eV,
 # The inclusion of the tight binding overlap integral, $$s$$, which is associated with the asymmetry between valence and conduction bands in graphene.
 # The trigonal warping effect.</pre>
 </div>
-<div created="20171027193433113" creator="amirhossein" modified="20180103014915429" modifier="amirhossein" tags="Snippets" title="Trim string in C++">
+<div created="20171027193433113" creator="amirhossein" modified="20180119195451711" modifier="amirhossein" tags="C++ Snippets" title="Trim string in C++">
 <pre>!What's the best way to trim std::string?
 
 Taken from [[here|https://stackoverflow.com/questions/216823/whats-the-best-way-to-trim-stdstring]].
