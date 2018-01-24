@@ -566,6 +566,8 @@ Error message and password prompt
 
 <li>Static variables</li>
 
+<li>std::swap function</li>
+
 <li>Steady state in drift-diffusion</li>
 
 <li>Symbolic link versus hard link</li>
@@ -590,9 +592,13 @@ Error message and password prompt
 
 <li>Trim string in C++</li>
 
+<li>Use std::sort in C++</li>
+
 <li>Usefullness of Fermi transition rate to a collection of states</li>
 
 <li>Using K2-extended representation to solve BS equation in CNT</li>
+
+<li>Using reference member in classes</li>
 
 <li>Validity of Fermi golden rule for exciton transfer in CNTs</li>
 
@@ -12462,6 +12468,9 @@ $$</pre>
   int A::dymmy;
 ```</pre>
 </div>
+<div created="20180124171517809" creator="amirhossein" modified="20180124171645849" modifier="amirhossein" tags="C++" title="std::swap function">
+<pre>`std::swap` uses the copy-constructor and copy-assignment operator within its implementation. Taken from [[here|https://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom?rq=1]].</pre>
+</div>
 <div created="20171023230450742" creator="amirhossein" modified="20171024002123881" modifier="amirhossein" tags="[[Drift-diffusion equation]]" title="Steady state in drift-diffusion">
 <pre>Steady state is defined as the state where there is ''no time variation'' in any measurable property.
 
@@ -12649,6 +12658,28 @@ static inline std::string trim_copy(std::string s) {
 }
 ```</pre>
 </div>
+<div created="20180119224136377" creator="amirhossein" modified="20180119225039747" modifier="amirhossein" tags="Snippets C++" title="Use std::sort in C++">
+<pre>Use `std::sort` to sort `std::vector` with respect to an arbitrary property by using lambda functions
+
+```cpp
+class foo
+{
+  // my custom class that holds some information
+};
+
+int bar(foo)
+{
+	// function to get foo and give back some number
+}
+
+std::vector&lt;foo&gt; baz(10,foo());
+
+std::sort(baz.begin(),baz.end(),
+			[&amp;](const auto&amp; f1, const auto&amp; f2) {
+               return bar(f1) &lt; bar(f2);}
+         );
+```</pre>
+</div>
 <div created="20171026155435509" creator="amirhossein" modified="20171026190114548" modifier="amirhossein" tags="[[Fermi golden rule]]" title="Usefullness of Fermi transition rate to a collection of states">
 <pre>There are two points to think about:
 
@@ -12714,6 +12745,13 @@ As we can see, there are some strange behavior. The reason is that because the w
 
 * A third option is to limit the range of 
 </pre>
+</div>
+<div created="20180124170835083" creator="amirhossein" modified="20180124171509556" modifier="amirhossein" tags="C++" title="Using reference member in classes">
+<pre>There are great difficulty in using reference members in classes, because references can only be ''initialized'' but ''not assigned''.
+
+So, I have not found anyway to implement assignment operator in for class objects that have reference members.
+
+One might be tempted to use copy-and-swap to implement assignment operator, but as it is explained in this [[StackOverflow|https://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom?rq=1]], for this solution to work we need to implement `swap` function ourselves, which I don't know how to do.</pre>
 </div>
 <div created="20171025191322713" creator="amirhossein" modified="20171025234832472" modifier="amirhossein" tags="[[Monte-Carlo simulation of the exciton diffusion in CNT film]]" title="Validity of Fermi golden rule for exciton transfer in CNTs">
 <pre>The Coulomb coupling matrix element for excitons between two CNTs is in the form
