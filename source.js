@@ -26,6 +26,7 @@ let pomodoroDurationValue = 25;
 let permission = Notification.permission;
 
 function tryNotification() {
+    console.log("Trying a notification");
     if(permission === "granted") {
         showNotification();
      } else if(permission === "default"){
@@ -36,9 +37,12 @@ function tryNotification() {
 }
 
 function showNotification() {
-    if(document.visibilityState === "visible) {
-        return;
-    }
+    // if(document.visibilityState === "visible) {
+    //     return;
+    // }
+
+    console.log("Creating a notification");
+
     var title = "JavaScript Jeep";
     icon = "image-url"
     var body = "Message to be displayed";
