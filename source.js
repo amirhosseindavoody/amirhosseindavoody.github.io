@@ -5,16 +5,9 @@ let db;
 
 const pomodoroList = document.getElementById("pomodoro-list");
 
-// create a reference to the notifications list in the bottom of the app; we will write database messages into this list by
-//appending list items on to the inner HTML of this variable - this is all the lines that say note.innerHTML += '<li>foo</li>';
-const note = document.getElementById('notifications');
-
 const controlButton = document.getElementById('control-button');
 
 const timerDisplay = document.getElementById('timer');
-
-const displayButton = document.getElementById('display-records');
-// const exportButton = document.getElementById('export-records');
 
 const plotArea = document.getElementById('plot-area');
 
@@ -24,6 +17,9 @@ const pomodoroDurationLabel = document.getElementById('pomodoro-duration-label')
 let pomodoroDurationValue = 25;
 
 let permission = Notification.permission;
+
+let timerIntervalExecutor;
+let timerStartDate;
 
 function tryNotification() {
     if(permission === "granted") {
@@ -171,8 +167,6 @@ function cleanDataAndReload() {
     location.reload();
 }
 
-let timerIntervalExecutor;
-let timerStartDate;
 function startPomodoro() {
     controlButton.innerHTML = "Stop Pomodoro";
     controlButton.removeEventListener("click", startPomodoro);
@@ -237,86 +231,15 @@ function stopPomodoro() {
     ];
     let objectStoreRequest = objectStore.add(newItem[0]);
     objectStoreRequest.onsuccess = function () {
-        displayRecords();
-        console.log("creating plot");
         create_time_table_plot();
     }
     objectStoreRequest.onerror = function (event) {
         console.log("failed to record pomodoro");
-        console.log(newItem[0]);
         console.log(event);
     }
 }
 
-window.onload = function () {
-    note.innerHTML += '<li>App initialised.</li>';
-
-    controlButton.innerHTML = "Start Pomodoro";
-    controlButton.addEventListener("click", startPomodoro);
-
-    document.body.style.fontFamily = "consolas, sans-serif";
-
-    displayButton.addEventListener("click", displayRecords);
-
-    pomodoroList.style.whiteSpace = "nowrap"
-
-    console.log(pomodoroDurationInput);
-    pomodoroDurationInput.addEventListener("input", () => {
-        pomodoroDurationValue = pomodoroDurationInput.value;
-        pomodoroDurationLabel.innerHTML = "Pomodoro duration: " + pomodoroDurationInput.value;
-    });
-    pomodoroDurationInput.addEventListener("change", () => {
-        pomodoroDurationValue = pomodoroDurationInput.value;
-        pomodoroDurationLabel.innerHTML = "Pomodoro duration: " + pomodoroDurationValue;
-    });
-
-    pomodoroDurationLabel.innerHTML = "Pomodoro duration: " + pomodoroDurationValue;
-
-
-    if (!window.indexedDB) {
-        console.log("Your browser doesn't support IndexedDB");
-        note.innerHTML += "Your browser doesn't support IndexedDB";
-        return;
-    }
-
-    // open the database
-    const DBOpenRequest = indexedDB.open('PomodoroDB', 1);
-
-    DBOpenRequest.onerror = (event) => {
-        console.error("Database error: ${event.target.errorCode}");
-    };
-
-    DBOpenRequest.onsuccess = (event) => {
-        // store the result of opening the database in the db variable
-        db = DBOpenRequest.result;
-        console.log("Opned Database successfully");
-        addDummyPomodoros();
-
-        create_time_table_plot();
-    };
-
-    DBOpenRequest.onupgradeneeded = function (event) {
-        let db = event.target.result;
-
-        // // Create an objectStore for this database
-        // let objectStore = db.createObjectStore("pomodoroList", { keyPath: "startDate" });
-
-        // // define what data items the objectStore will contain
-        // objectStore.createIndex("startDate", "startDate", { unique: false });
-
-        // Create an objectStore for this database
-        let objectStore = db.createObjectStore("pomodoroList", { keyPath: "startDate" });
-
-        // define what data items the objectStore will contain
-        objectStore.createIndex("startDate", "startDate", { unique: false });
-    }
-
-
-
-}
-
 function addDummyPomodoros() {
-    return;
 
     let items = [
         { startDate: new Date(2021, 06, 13, 10, 30), endDate: new Date(2021, 06, 13, 10, 35), project: "Work", durationInHours: 0.25, startHourOfDay: 10.5 },
@@ -335,7 +258,6 @@ function addDummyPomodoros() {
     });
 
     tx.oncomplete = function () {
-        displayRecords();
         console.log("Finished adding records");
     }
 
@@ -367,8 +289,6 @@ function displayRecords() {
             cursor.continue();
 
             // if there are no more cursor items to iterate through, say so, and exit the function
-        } else {
-            note.innerHTML += '<li>Entries all displayed.</li>';
         }
     }
 
@@ -389,5 +309,66 @@ function getAllPomodoroForThisWeek(callback) {
         console.log("Number of pomodoros for this week: " + results.length);
         callback(results);
     }
+}
+
+window.onload = function () {
+
+    controlButton.innerHTML = "Start Pomodoro";
+    controlButton.addEventListener("click", startPomodoro);
+
+    document.body.style.fontFamily = "sans-serif";
+
+    console.log(pomodoroDurationInput);
+    pomodoroDurationInput.addEventListener("input", () => {
+        pomodoroDurationValue = pomodoroDurationInput.value;
+        pomodoroDurationLabel.innerHTML = "Pomodoro duration: " + pomodoroDurationInput.value;
+    });
+    pomodoroDurationInput.addEventListener("change", () => {
+        pomodoroDurationValue = pomodoroDurationInput.value;
+        pomodoroDurationLabel.innerHTML = "Pomodoro duration: " + pomodoroDurationValue;
+    });
+
+    pomodoroDurationLabel.innerHTML = "Pomodoro duration: " + pomodoroDurationValue;
+
+
+    if (!window.indexedDB) {
+        console.log("Your browser doesn't support IndexedDB");
+        return;
+    }
+
+    // open the database
+    const DBOpenRequest = indexedDB.open('PomodoroDB', 1);
+
+    DBOpenRequest.onerror = (event) => {
+        console.error("Database error: ${event.target.errorCode}");
+    };
+
+    DBOpenRequest.onsuccess = (event) => {
+        // store the result of opening the database in the db variable
+        db = DBOpenRequest.result;
+        console.log("Opned Database successfully");
+        // addDummyPomodoros();
+
+        create_time_table_plot();
+    };
+
+    DBOpenRequest.onupgradeneeded = function (event) {
+        let db = event.target.result;
+
+        // // Create an objectStore for this database
+        // let objectStore = db.createObjectStore("pomodoroList", { keyPath: "startDate" });
+
+        // // define what data items the objectStore will contain
+        // objectStore.createIndex("startDate", "startDate", { unique: false });
+
+        // Create an objectStore for this database
+        let objectStore = db.createObjectStore("pomodoroList", { keyPath: "startDate" });
+
+        // define what data items the objectStore will contain
+        objectStore.createIndex("startDate", "startDate", { unique: false });
+    }
+
+
+
 }
 // export {startTimer, logTime, cleanData, clickCounter, create_time_table_plot, create_scatter_plot};
