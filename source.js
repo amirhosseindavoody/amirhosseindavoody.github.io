@@ -42,7 +42,7 @@ function showNotification() {
     var title = "Pomodoro App";
     icon = "tomato-icon.png"
     var body = "Pomodoro finished";
-    var notification = new Notification(title, { body, icon });
+    var notification = new Notification(title, { body:body, requireInteraction:true,  icon:icon});
     notification.onclick = () => { 
            notification.close();
            window.parent.focus();
