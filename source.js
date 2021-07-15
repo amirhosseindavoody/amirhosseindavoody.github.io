@@ -147,7 +147,7 @@ function create_time_table_plot() {
                 .attr("ry", 3)
                 .attr("width", calculate_width(r, x))
                 .attr("height", 20)
-                .attr("fill", '#f44336');
+                .attr("fill", get_color(r));
         })
     });
 };
@@ -155,6 +155,14 @@ function create_time_table_plot() {
 function calculate_width(pomodoro_event, xscale) {
     let width = xscale(pomodoro_event.startHourOfDay + pomodoro_event.durationInHours) - xscale(pomodoro_event.startHourOfDay);
     return Math.max(width, 1);
+}
+
+function get_color(pomodoro_event) {
+    if (pomodoro_event.completed) {
+        return "#1976d2";
+    } else {
+        return "#d32f2f";
+    }
 }
 
 function cleanDataAndReload() {
@@ -216,13 +224,16 @@ function stopPomodoro() {
     // call an object store that's already been added to the database
     let objectStore = transaction.objectStore("pomodoroList");
 
-    // let timerBeginingOfDay = new Date(timerStartDate);
-    // timerBeginingOfDay.setHours(0,0,0,0);
     let durationInHours = (timerEndDate.getTime() - timerStartDate.getTime()) / (1000 * 60 * 60);
     let startHourOfDay = (timerStartDate.getTime() - new Date(timerStartDate).setHours(0, 0, 0, 0)) / (1000 * 60 * 60);
 
+    let completed = true;
+    if (durationInHours * 60 <= pomodoroDurationValue) {
+        completed = false;
+    }
+
     let newItem = [
-        { startDate: timerStartDate, endDate: timerEndDate, project: "Work", durationInHours: durationInHours, startHourOfDay: startHourOfDay }
+        { startDate: timerStartDate, endDate: timerEndDate, project: "Work", durationInHours: durationInHours, startHourOfDay: startHourOfDay, completed: completed }
     ];
     let objectStoreRequest = objectStore.add(newItem[0]);
     objectStoreRequest.onsuccess = function () {
