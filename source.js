@@ -206,6 +206,7 @@ function startPomodoro() {
 }
 
 function stopPomodoro() {
+    console.log("Stoping the pomodoro");
     tryNotification();
 
     controlButton.innerHTML = "Start Pomodoro";
