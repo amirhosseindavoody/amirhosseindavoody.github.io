@@ -54,10 +54,6 @@ function requestAndShowPermission() {
 }
 
 function create_time_table_plot() {
-
-    console.log("Plotting");
-    console.log(new Date());
-
     plotArea.innerHTML = "";
 
     // set the dimensions and margins of the graph
