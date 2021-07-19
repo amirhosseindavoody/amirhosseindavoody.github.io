@@ -74,7 +74,7 @@ function create_time_table_plot() {
             "translate(" + margin.left + "," + margin.top + ")");
 
     // Labels of row and columns
-    var days = ["Sunday", "Saturday", "Friday", "Thursday", "Wednesday", "Tuesday", "Monday"]
+    let days_scale = [new Date().setHours(0,0,0,0) - 7 * 24 * 60 * 60 * 1000, new Date().setHours(24,0,0,0)];
 
     const range = (start, stop, step) => Array.from({ length: (stop - start) / step + 1 }, (_, i) => start + (i * step));
     hour_format = {
@@ -107,7 +107,6 @@ function create_time_table_plot() {
 
     var x = d3.scaleLinear()
         .range([0, width])
-        // .domain([0, 24]);
         .domain(hour_domain)
         .clamp(true);
 
@@ -125,10 +124,10 @@ function create_time_table_plot() {
         .attr("transform", "rotate(90)")
         .style("text-anchor", "start");
 
-    var y = d3.scaleBand()
+    var y = d3.scaleTime()
         .range([height, 0])
-        .domain(days)
-        .padding(0.10);
+        .domain(days_scale);
+
     svg.append("g")
         .call(d3.axisLeft(y));
 
@@ -138,7 +137,7 @@ function create_time_table_plot() {
                 .append("g")
                 .append("rect")
                 .attr("x", x(r.startHourOfDay))
-                .attr("y", y(days[6 - r.startDate.getDay()]))
+                .attr("y", y(r.startDate.setHours(0,0,0,0)))
                 .attr("rx", 3)
                 .attr("ry", 3)
                 .attr("width", calculate_width(r, x))
