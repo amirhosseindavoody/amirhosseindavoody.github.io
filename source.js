@@ -179,16 +179,22 @@ function startPomodoro() {
     timerIntervalExecutor = setInterval(function () {
 
         // Get today's date and time
-        var now = new Date();
+        let now = new Date();
 
         // Find the distance between now and the count down date
-        var distance = maxEndDate.getTime() - now.getTime();
+        let distance = maxEndDate.getTime() - now.getTime();
 
-        var hours = Math.floor(distance / (1000 * 60 * 60));
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        let hours = Math.floor(distance / (1000 * 60 * 60));
+        let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        timerDisplay.innerHTML = hours + ":" + minutes + ":" + seconds;
+        function pad(num, size=2) {
+            num = num.toString();
+            while (num.length < size) num = "0" + num;
+            return num;
+        }
+
+        timerDisplay.innerHTML = pad(hours) + ":" + pad(minutes) + ":" + pad(seconds);
 
         // If the count down is finished, write some text
         if (distance < 0) {
