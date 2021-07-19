@@ -403,6 +403,7 @@ window.onload = function () {
     DBOpenRequest.onsuccess = (event) => {
         // store the result of opening the database in the db variable
         db = DBOpenRequest.result;
+        create_time_table_plot();
         setInterval(create_time_table_plot, 60 * 1000);
     };
 
