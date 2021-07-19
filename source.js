@@ -43,15 +43,15 @@ function showNotification() {
            notification.close();
            window.parent.focus();
     }
- }
+}
 
- function requestAndShowPermission() {
+function requestAndShowPermission() {
     Notification.requestPermission(function (permission) {
-       if (permission === "granted") {
-             showNotification();
-       }
+        if (permission === "granted") {
+            showNotification();
+        }
     });
- }
+}
 
 function create_time_table_plot() {
 
@@ -110,6 +110,33 @@ function create_time_table_plot() {
         .domain(hour_domain)
         .clamp(true);
 
+    // add the X gridlines
+    svg.append("g")
+        .attr("class", "grid")
+        .attr("transform", "translate(0," + height + ")")
+        .call(
+            d3.axisBottom(x)
+                .ticks(5)
+                .tickSize(-height)
+                .tickFormat("")
+        );
+
+    var y = d3.scaleTime()
+        .range([height, 0])
+        .domain(days_scale);
+
+    // add the Y gridlines
+    svg.append("g")
+        .attr("class", "grid")
+        .call(
+            d3.axisLeft(y)
+                .ticks(7)
+                .tickSize(-width)
+                .tickFormat("")
+        );
+
+    // svg.selectAll("g.grid").style({stroke:"blue"});
+
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")
         .call(
@@ -123,10 +150,6 @@ function create_time_table_plot() {
         .attr("dy", ".35em")
         .attr("transform", "rotate(90)")
         .style("text-anchor", "start");
-
-    var y = d3.scaleTime()
-        .range([height, 0])
-        .domain(days_scale);
 
     svg.append("g")
         .call(d3.axisLeft(y));
