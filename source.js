@@ -119,7 +119,9 @@ function create_time_table_plot() {
                 .ticks(5)
                 .tickSize(-height)
                 .tickFormat("")
-        );
+        )
+        .selectAll("line")
+        .style("stroke", "#ddd");
 
     var y = d3.scaleTime()
         .range([height, 0])
@@ -133,7 +135,19 @@ function create_time_table_plot() {
                 .ticks(7)
                 .tickSize(-width)
                 .tickFormat("")
-        );
+        )
+        .selectAll("line")
+        .style("stroke", "#ddd");
+
+    // Add reference line for current time
+    svg.append("line")
+        // .attr("class", "today")
+        .style("stroke-dasharray", ("10,3"))
+        .style("stroke", "grey")
+        .attr("x1", x((Date.now() - new Date().setHours(0,0,0,0))/(60*60*1000)))
+        .attr("y1", height)
+        .attr("x2", x((Date.now() - new Date().setHours(0,0,0,0))/(60*60*1000)))
+        .attr("y2", 0);
 
     // svg.selectAll("g.grid").style({stroke:"blue"});
 
@@ -390,10 +404,7 @@ window.onload = function () {
     DBOpenRequest.onsuccess = (event) => {
         // store the result of opening the database in the db variable
         db = DBOpenRequest.result;
-        console.log("Opned Database successfully");
-        // addDummyPomodoros();
-
-        create_time_table_plot();
+        setInterval(create_time_table_plot(), 60 * 1000);
     };
 
     DBOpenRequest.onupgradeneeded = function (event) {
@@ -415,4 +426,3 @@ window.onload = function () {
 
 
 }
-// export {startTimer, logTime, cleanData, clickCounter, create_time_table_plot, create_scatter_plot};
