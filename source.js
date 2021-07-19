@@ -315,7 +315,7 @@ function getAllPomodoroForPast7Days(callback) {
     let index = objectStore.index("startDate");
 
     let startDate = new Date(new Date().setHours(0, 0, 0, 0) - 7 * 24 * 60 * 60 * 1000);
-    let endDate = new Date(new Date().setHours(0, 0, 0, 0));
+    let endDate = new Date(new Date().setHours(24, 0, 0, 0));
 
     let range = IDBKeyRange.bound(startDate, endDate);
 
