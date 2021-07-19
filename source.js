@@ -132,7 +132,7 @@ function create_time_table_plot() {
     svg.append("g")
         .call(d3.axisLeft(y));
 
-    getAllPomodoroForThisWeek((results) => {
+    getAllPomodoroForPast7Days((results) => {
         results.forEach(r => {
             svg
                 .append("g")
@@ -301,6 +301,22 @@ function getAllPomodoroForThisWeek(callback) {
     let today = new Date();
     let startDate = new Date(today.setHours(0, 0, 0, 0) - today.getDay() * 24 * 60 * 60 * 1000);
     let endDate = new Date(startDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+    let range = IDBKeyRange.bound(startDate, endDate);
+
+    index.getAll(range).onsuccess = function (event) {
+        let results = event.target.result;
+        console.log("Number of pomodoros for this week: " + results.length);
+        callback(results);
+    }
+}
+
+function getAllPomodoroForPast7Days(callback) {
+    let objectStore = db.transaction(["pomodoroList"], "readonly").objectStore('pomodoroList');
+    let index = objectStore.index("startDate");
+
+    let startDate = new Date(new Date().setHours(0, 0, 0, 0) - 7 * 24 * 60 * 60 * 1000);
+    let endDate = new Date(new Date().setHours(0, 0, 0, 0));
 
     let range = IDBKeyRange.bound(startDate, endDate);
 
