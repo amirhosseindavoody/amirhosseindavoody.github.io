@@ -55,6 +55,9 @@ function requestAndShowPermission() {
 
 function create_time_table_plot() {
 
+    console.log("Plotting");
+    console.log(new Date());
+
     plotArea.innerHTML = "";
 
     // set the dimensions and margins of the graph
@@ -404,7 +407,7 @@ window.onload = function () {
     DBOpenRequest.onsuccess = (event) => {
         // store the result of opening the database in the db variable
         db = DBOpenRequest.result;
-        setInterval(create_time_table_plot(), 60 * 1000);
+        setInterval(create_time_table_plot, 60 * 1000);
     };
 
     DBOpenRequest.onupgradeneeded = function (event) {
