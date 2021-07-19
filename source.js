@@ -116,7 +116,7 @@ function create_time_table_plot() {
         .attr("transform", "translate(0," + height + ")")
         .call(
             d3.axisBottom(x)
-                .ticks(5)
+                .ticks(10)
                 .tickSize(-height)
                 .tickFormat("")
         );
