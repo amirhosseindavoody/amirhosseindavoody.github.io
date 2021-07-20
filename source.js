@@ -120,7 +120,7 @@ function create_time_table_plot() {
         Tooltip
             .style("opacity", 1)
         d3.select(this)
-            .style("stroke", "black")
+            // .style("stroke", "black")
             .style("opacity", 1)
     }
     var mousemove = function (d) {
@@ -134,7 +134,7 @@ function create_time_table_plot() {
         Tooltip
             .style("opacity", 0)
         d3.select(this)
-            .style("stroke", "none")
+            // .style("stroke", "none")
             .style("opacity", 0.8)
     }
 
