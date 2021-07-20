@@ -104,6 +104,40 @@ function create_time_table_plot() {
         24: "12 AM"
     };
 
+    // create a tooltip
+    var Tooltip = d3.select("#div_template")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+
+    // Three function that change the tooltip when user hover / move / leave a cell
+    var mouseover = function (d) {
+        Tooltip
+            .style("opacity", 1)
+        d3.select(this)
+            .style("stroke", "black")
+            .style("opacity", 1)
+    }
+    var mousemove = function (d) {
+        Tooltip
+            .html("The exact value of<br>this cell is: ")
+            .style("left", (d3.mouse(this)[0]+10) + "px")
+            .style("top", (d3.mouse(this)[1]) + "px")
+        // console.log(d3.mouse(this));
+    }
+    var mouseleave = function (d) {
+        Tooltip
+            .style("opacity", 0)
+        d3.select(this)
+            .style("stroke", "none")
+            .style("opacity", 0.8)
+    }
+
     var x = d3.scaleLinear()
         .range([0, width])
         .domain(hour_domain)
@@ -178,7 +212,13 @@ function create_time_table_plot() {
                 .attr("ry", 3)
                 .attr("width", calculate_width(r, x))
                 .attr("height", 20)
-                .attr("fill", get_color(r));
+                .style("fill", get_color(r) )
+                .style("stroke-width", 4)
+                .style("stroke", "none")
+                .style("opacity", 0.8)
+                .on("mouseover", mouseover)
+                .on("mousemove", mousemove)
+                .on("mouseleave", mouseleave);
         })
     });
 };
