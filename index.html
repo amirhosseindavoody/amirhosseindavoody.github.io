@@ -13,7 +13,7 @@
         <button id="control-button"></button>
         <br>
         <label id="pomodoro-duration-label" for="pomodoro-duration"></label>
-        <input type="range" min="1" max="60" step="1" id="pomodoro-duration-input" value="25">
+        <input type="range" min="5" max="60" step="1" id="pomodoro-duration-input" value="25">
         <h2 id="timer"></h2>
     </div>
 
@@ -21,6 +21,14 @@
 
     <div id="plot-area"></div>
 
+    <hr>
+    <div>
+        <h2>Instructions</h2>
+        <ul>
+            <li>Pomodoros that are stopped early are shown in red, pomodoros that are finished to the end are shown in blue</li>
+            <li>The tracker does not record work periods (pomodoro sessions) that are shorter than 5 minutes</li>
+          </ul>
+    </div>
     <hr>
     <div>
         <button onclick="cleanDataAndReload()">Clean data and reload</button>

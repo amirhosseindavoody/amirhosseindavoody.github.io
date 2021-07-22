@@ -281,6 +281,11 @@ function stopPomodoro() {
     let durationInHours = (timerEndDate.getTime() - timerStartDate.getTime()) / (1000 * 60 * 60);
     let startHourOfDay = (timerStartDate.getTime() - new Date(timerStartDate).setHours(0, 0, 0, 0)) / (1000 * 60 * 60);
 
+    // Do not record pomodoro if it is less than 5 minutes.
+    if (durationInHours*60 < 5) {
+        return;
+    }
+
     let completed = true;
     if (durationInHours * 60 <= pomodoroDurationValue) {
         completed = false;
