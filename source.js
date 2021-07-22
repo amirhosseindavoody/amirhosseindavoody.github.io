@@ -94,6 +94,8 @@ function create_time_table_plot() {
         .style("border-radius", "5px")
         .style("padding", "5px")
 
+    const kOpacity = 0.6;
+
     // Three function that change the tooltip when user hover / move / leave a cell
     var mouseover = function (d) {
         Tooltip
@@ -113,7 +115,7 @@ function create_time_table_plot() {
             .style("opacity", 0)
         d3.select(this)
             .style("stroke", "none")
-            .style("opacity", 0.5)
+            .style("opacity", kOpacity)
     }
 
     var x = d3.scaleLinear()
@@ -193,7 +195,7 @@ function create_time_table_plot() {
             .style("fill", (d) => { return get_color(d) })
             .style("stroke-width", 4)
             .style("stroke", "none")
-            .style("opacity", 0.8)
+            .style("opacity", kOpacity)
             .on("mouseover", mouseover)
             .on("mousemove", mousemove)
             .on("mouseleave", mouseleave);
