@@ -73,7 +73,7 @@ function create_time_table_plot() {
             "translate(" + margin.left + "," + margin.top + ")");
 
     // Labels of row and columns
-    let days_scale = [new Date().setHours(0,0,0,0) - 7 * 24 * 60 * 60 * 1000, new Date().setHours(24,0,0,0)];
+    let days_scale = [new Date().setHours(0,0,0,0) - 8 * 24 * 60 * 60 * 1000, new Date().setHours(0,0,0,0)];
 
     const range = (start, stop, step) => Array.from({ length: (stop - start) / step + 1 }, (_, i) => start + (i * step));
     hour_format = {
