@@ -72,14 +72,18 @@ function create_gantt_chart() {
         let vlSpec = {
             $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
             description: 'A Gantt chart showing pomodoros',
+            width: 900,
+            height: 200,
+            padding: 5,
+            autosize: "pad",
             data: {
                 values: res
             },
             mark: 'bar',
             encoding: {
-                y: { timeUnit: "date", field: 'date', type: 'ordinal' },
-                x: { timeUnit: "hoursminutes", field: 'start', type: 'quantitative' },
-                x2: { field: 'end'},
+                y: { timeUnit: "date", field: 'date', type: 'temporal' },
+                x: { timeUnit: "hoursminutes", field: 'start', type: 'temporal' },
+                x2: { timeUnit: "hoursminutes", field: 'end', type: 'temporal'},
                 
             }
         }
