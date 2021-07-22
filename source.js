@@ -58,10 +58,10 @@ function create_time_table_plot() {
 
     // set the dimensions and margins of the graph
     var margin = { top: 30, right: 30, bottom: 50, left: 100 },
-        width = 600 - margin.left - margin.right,
+        width = 900 - margin.left - margin.right,
         height = 300 - margin.top - margin.bottom;
 
-    let hour_domain = [6, 18];
+    let hour_domain = [6, 24];
 
     // append the svg object to the body of the page
     var svg = d3.select("#plot-area")
@@ -77,31 +77,10 @@ function create_time_table_plot() {
 
     const range = (start, stop, step) => Array.from({ length: (stop - start) / step + 1 }, (_, i) => start + (i * step));
     hour_format = {
-        0: "12 AM",
-        1: "1 AM",
-        2: "2 AM",
-        3: "3 AM",
-        4: "4 AM",
-        5: "5 AM",
-        6: "6 AM",
-        7: "7 AM",
-        8: "8 AM",
-        9: "9 AM",
-        10: "10 AM",
-        11: "11 AM",
-        12: "12 PM",
-        13: "1 PM",
-        14: "2 PM",
-        15: "3 PM",
-        16: "4 PM",
-        17: "5 PM",
-        18: "6 PM",
-        19: "7 PM",
-        20: "8 PM",
-        21: "9 PM",
-        22: "10 PM",
-        23: "11 PM",
-        24: "12 AM"
+        0: "12 AM", 1: "1 AM", 2: "2 AM", 3: "3 AM", 4: "4 AM", 5: "5 AM", 6: "6 AM",
+        7: "7 AM", 8: "8 AM", 9: "9 AM", 10: "10 AM", 11: "11 AM", 12: "12 PM", 13: "1 PM",
+        14: "2 PM", 15: "3 PM", 16: "4 PM", 17: "5 PM", 18: "6 PM", 19: "7 PM", 20: "8 PM",
+        21: "9 PM", 22: "10 PM", 23: "11 PM", 24: "12 AM"
     };
 
     // create a tooltip
@@ -118,24 +97,23 @@ function create_time_table_plot() {
     // Three function that change the tooltip when user hover / move / leave a cell
     var mouseover = function (d) {
         Tooltip
-            .style("opacity", 1)
+            .style("opacity", 1);
         d3.select(this)
-            // .style("stroke", "black")
-            .style("opacity", 1)
+            .style("stroke", get_color(d))
+            .style("opacity", 1);
     }
     var mousemove = function (d) {
         Tooltip
             .html("The exact value of<br>this cell is: ")
             .style("left", (d3.mouse(this)[0]+70) + "px")
             .style("top", (d3.mouse(this)[1]) + "px")
-        // console.log(d3.mouse(this));
     }
     var mouseleave = function (d) {
         Tooltip
             .style("opacity", 0)
         d3.select(this)
-            // .style("stroke", "none")
-            .style("opacity", 0.8)
+            .style("stroke", "none")
+            .style("opacity", 0.5)
     }
 
     var x = d3.scaleLinear()
@@ -174,7 +152,6 @@ function create_time_table_plot() {
 
     // Add reference line for current time
     svg.append("line")
-        // .attr("class", "today")
         .style("stroke-dasharray", ("10,3"))
         .style("stroke", "grey")
         .attr("x1", x((Date.now() - new Date().setHours(0,0,0,0))/(60*60*1000)))
@@ -202,24 +179,24 @@ function create_time_table_plot() {
         .call(d3.axisLeft(y));
 
     getAllPomodoroForPast7Days((results) => {
-        results.forEach(r => {
-            svg
-                .append("g")
-                .append("rect")
-                .attr("x", x(r.startHourOfDay))
-                .attr("y", y(r.startDate.setHours(0,0,0,0)))
-                .attr("rx", 3)
-                .attr("ry", 3)
-                .attr("width", calculate_width(r, x))
-                .attr("height", 20)
-                .style("fill", get_color(r) )
-                .style("stroke-width", 4)
-                .style("stroke", "none")
-                .style("opacity", 0.8)
-                .on("mouseover", mouseover)
-                .on("mousemove", mousemove)
-                .on("mouseleave", mouseleave);
-        })
+        enter = svg
+            .append("g").selectAll("rect")
+            .data(results)
+            .enter()
+            .append("rect")
+            .attr("x", (d) => { return x(d.startHourOfDay) })
+            .attr("y", (d) => { return y(d.startDate.setHours(0, 0, 0, 0)) })
+            .attr("rx", 3)
+            .attr("ry", 3)
+            .attr("width", (d) => { return calculate_width(d, x) })
+            .attr("height", 20)
+            .style("fill", (d) => { return get_color(d) })
+            .style("stroke-width", 4)
+            .style("stroke", "none")
+            .style("opacity", 0.8)
+            .on("mouseover", mouseover)
+            .on("mousemove", mousemove)
+            .on("mouseleave", mouseleave);
     });
 };
 
@@ -415,7 +392,6 @@ window.onload = function () {
 
     document.body.style.fontFamily = "sans-serif";
 
-    console.log(pomodoroDurationInput);
     pomodoroDurationInput.addEventListener("input", () => {
         pomodoroDurationValue = pomodoroDurationInput.value;
         pomodoroDurationLabel.innerHTML = "Pomodoro duration: " + pomodoroDurationInput.value;
