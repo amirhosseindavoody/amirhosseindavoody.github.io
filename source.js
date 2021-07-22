@@ -1,5 +1,9 @@
 document.write('<script src="https://d3js.org/d3.v4.js"></script>');
 
+document.write('<script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>');
+document.write('<script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>');
+document.write('<script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>');
+
 // create an instance of a db object for us to store the IDB data in
 let db;
 
@@ -50,6 +54,37 @@ function requestAndShowPermission() {
         if (permission === "granted") {
             showNotification();
         }
+    });
+}
+
+function create_gantt_chart() {
+    getAllPomodoroForPast7Days((results) => {
+        let res = results.map(function(r) {
+            // let durationInHours = (timerEndDate.getTime() - timerStartDate.getTime()) / (1000 * 60 * 60);
+            // let startHourOfDay = (r.startDate.getTime() - new Date(r.startDate).setHours(0, 0, 0, 0)) / (1000 * 60 * 60);
+            return {
+                "date":r.startDate.getTime(),
+                "start" : r.startDate.getTime(),
+                "end" : r.startDate.getTime(),
+                
+            }
+        })
+        let vlSpec = {
+            $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+            description: 'A Gantt chart showing pomodoros',
+            data: {
+                values: res
+            },
+            mark: 'bar',
+            encoding: {
+                y: { timeUnit: "date", field: 'date', type: 'ordinal' },
+                x: { timeUnit: "hoursminutes", field: 'start', type: 'quantitative' },
+                x2: { field: 'end'},
+                
+            }
+        }
+
+        vegaEmbed("#vega-gantt", vlSpec);
     });
 }
 
@@ -297,6 +332,7 @@ function stopPomodoro() {
     let objectStoreRequest = objectStore.add(newItem[0]);
     objectStoreRequest.onsuccess = function () {
         create_time_table_plot();
+        create_gantt_chart();
     }
     objectStoreRequest.onerror = function (event) {
         console.log("failed to record pomodoro");
@@ -427,7 +463,9 @@ window.onload = function () {
         // store the result of opening the database in the db variable
         db = DBOpenRequest.result;
         create_time_table_plot();
+        create_gantt_chart();
         setInterval(create_time_table_plot, 60 * 1000);
+        setInterval(create_gantt_chart, 60 * 1000);
     };
 
     DBOpenRequest.onupgradeneeded = function (event) {
