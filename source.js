@@ -65,7 +65,7 @@ function create_gantt_chart() {
             return {
                 "date":r.startDate.getTime(),
                 "start" : r.startDate.getTime(),
-                "end" : r.startDate.getTime(),
+                "end" : r.endDate.getTime(),
                 
             }
         })
