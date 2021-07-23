@@ -577,7 +577,7 @@ window.onload = function () {
         // store the result of opening the database in the db variable
         db = DBOpenRequest.result;
         create_gantt_chart(gantt_properties);
-        setInterval(create_gantt_chart(gantt_properties), 60 * 1000);
+        setInterval(create_gantt_chart, 60 * 1000, gantt_properties);
     };
 
     DBOpenRequest.onupgradeneeded = function (event) {
