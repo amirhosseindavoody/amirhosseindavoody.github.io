@@ -143,15 +143,13 @@ function requestAndShowPermission() {
 }
 
 function create_gantt_chart(gantt_properties) {
-    getAllPomodoroForPast7Days((results) => {
+    getAllPomodoroLastNDays(7, (results) => {
         let res = results.map(function(r) {
-            // let durationInHours = (timerEndDate.getTime() - timerStartDate.getTime()) / (1000 * 60 * 60);
-            // let startHourOfDay = (r.startDate.getTime() - new Date(r.startDate).setHours(0, 0, 0, 0)) / (1000 * 60 * 60);
             return {
                 "date":r.startDate.getTime(),
                 "start" : r.startDate.getTime()+30*1000,
                 "end" : r.endDate.getTime()-30*1000,
-                
+                // "duration": (r.endDate.getTime() - r.startDate.getTime()) / (60 * 60 * 1000)
             }
         })
         let vlSpec = {
@@ -181,15 +179,63 @@ function create_gantt_chart(gantt_properties) {
                             { date: Date.now() },
                         ],
                     },
-                    mark: { type: "rule", color: "red", size: 2, clip: true},
+                    mark: { type: "rule", color: "red", size: 2, clip: true },
                     encoding: {
-                      x: {timeUnit: "hoursminutes", field: "date", type: "temporal", },
+                        x: { timeUnit: "hoursminutes", field: "date", type: "temporal", },
                     },
-                  },
+                },
             ],
         }
 
         vegaEmbed("#vega-gantt", vlSpec, {renderer: "svg"});
+    });
+
+    getAllPomodoroLastNDays(20, (results) => {
+        let res = results.map(function(r) {
+            return {
+                "date":r.startDate.getTime(),
+                "duration": (r.endDate.getTime() - r.startDate.getTime()) / (60 * 60 * 1000)
+            }
+        })
+
+        console.log(res);
+        let vlSpec = {
+            $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+            description: 'Histogram of active time',
+            width: 900,
+            height: 200,
+            padding: 5,
+            autosize: "pad",
+            layer: [
+                {
+                    data: {
+                        values: res
+                    },
+                    mark: { type: "bar", cornerRadius: 5, clip: true },
+                    encoding: {
+                        x: { timeUnit: "date", field: 'date', type: 'temporal', title: "Day", axis: {grid: true, format: "%m/%d"}},
+                        y: {
+                            aggregate: "sum", field: 'duration', type: 'quantitative', title: "Work hours",
+                        },
+
+                    }
+                },
+                // {
+                //     // Second layer: spec of the vertical rulers to show the current time.
+                //     data: {
+                //         values: res,
+                //     },
+                //     mark: { type: "rule", color: "red", size: 2, clip: true },
+                //     encoding: {
+                //         y: {
+                //             aggregate: "median", field: 'duration', type: 'quantitative', title: "Work hours",
+                //         },
+                //     },
+                // },
+            ],
+        }
+
+        vegaEmbed("#vega-histogram", vlSpec, {renderer: "svg"});
     });
 }
 
@@ -320,7 +366,7 @@ function create_time_table_plot() {
     svg.append("g")
         .call(d3.axisLeft(y));
 
-    getAllPomodoroForPast7Days((results) => {
+        getAllPomodoroLastNDays(7, (results) => {
         enter = svg
             .append("g").selectAll("rect")
             .data(results)
@@ -516,11 +562,11 @@ function getAllPomodoroForThisWeek(callback) {
     }
 }
 
-function getAllPomodoroForPast7Days(callback) {
+function getAllPomodoroLastNDays(n_days, callback) {
     let objectStore = db.transaction(["pomodoroList"], "readonly").objectStore('pomodoroList');
     let index = objectStore.index("startDate");
 
-    let startDate = new Date(new Date().setHours(0, 0, 0, 0) - 7 * 24 * 60 * 60 * 1000);
+    let startDate = new Date(new Date().setHours(0, 0, 0, 0) - n_days * 24 * 60 * 60 * 1000);
     let endDate = new Date(new Date().setHours(24, 0, 0, 0));
 
     let range = IDBKeyRange.bound(startDate, endDate);
