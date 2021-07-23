@@ -164,7 +164,7 @@ function create_gantt_chart(gantt_properties) {
             layer: [
                 {
                     data: {
-                        values: dummyData
+                        values: res
                     },
                     mark: { type: "bar", cornerRadius: 5, clip: true },
                     encoding: {
