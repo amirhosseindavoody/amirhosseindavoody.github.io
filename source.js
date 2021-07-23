@@ -149,8 +149,8 @@ function create_gantt_chart(gantt_properties) {
             // let startHourOfDay = (r.startDate.getTime() - new Date(r.startDate).setHours(0, 0, 0, 0)) / (1000 * 60 * 60);
             return {
                 "date":r.startDate.getTime(),
-                "start" : r.startDate.getTime(),
-                "end" : r.endDate.getTime(),
+                "start" : r.startDate.getTime()+30*1000,
+                "end" : r.endDate.getTime()-30*1000,
                 
             }
         })
