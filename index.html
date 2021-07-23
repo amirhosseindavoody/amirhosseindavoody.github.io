@@ -32,6 +32,13 @@
           </ul>
     </div>
     <hr>
+    <h2>Gantt chart properties</h2>
+    <div>
+        <label for="gantt_chart_min_hours">Time range in hours:</label>
+        <input type="number" id="gantt_chart_min_hours" name="gantt_chart_min_hours" min="0" max="24" step="1">
+        <input type="number" id="gantt_chart_max_hours" name="gantt_chart_max_hours" min="0" max="24" step="1">
+    </div>
+    <hr>
     <div>
         <button onclick="cleanDataAndReload()">Clean data and reload</button>
     </div>

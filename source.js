@@ -98,6 +98,18 @@ let dummyData = [
     {"date": 1626989487943, "start": 1626989487943, "end": 1626991025166}
   ];
 
+const update_gantt_chart = {
+    set: function(obj, prop, value) {
+        obj[prop] = value;
+        create_gantt_chart(obj);
+    }
+}
+
+const gantt_properties = new Proxy({
+    xmin_hours: 9,
+    xmax_hours: 19,
+}, update_gantt_chart)
+
 function tryNotification() {
     if(permission === "granted") {
         showNotification();
@@ -130,7 +142,7 @@ function requestAndShowPermission() {
     });
 }
 
-function create_gantt_chart() {
+function create_gantt_chart(gantt_properties) {
     getAllPomodoroForPast7Days((results) => {
         let res = results.map(function(r) {
             // let durationInHours = (timerEndDate.getTime() - timerStartDate.getTime()) / (1000 * 60 * 60);
@@ -152,12 +164,12 @@ function create_gantt_chart() {
             layer: [
                 {
                     data: {
-                        values: res
+                        values: dummyData
                     },
-                    mark: { "type": "bar", "cornerRadius": 5 },
+                    mark: { type: "bar", cornerRadius: 5, clip: true },
                     encoding: {
-                        y: { timeUnit: "date", field: 'date', type: 'temporal' },
-                        x: { timeUnit: "hoursminutes", field: 'start', type: 'temporal' },
+                        y: { timeUnit: "date", field: 'date', type: 'temporal', title:"Date",  axis: {grid: true, format: "%m/%d"}  },
+                        x: { timeUnit: "hoursminutes", field: 'start', type: 'temporal', title: "Time", axis: { grid: true }, "scale": { "domain": [{ "hours": gantt_properties.xmin_hours }, { "hours": gantt_properties.xmax_hours }] } },
                         x2: { timeUnit: "hoursminutes", field: 'end', type: 'temporal' },
 
                     }
@@ -169,12 +181,12 @@ function create_gantt_chart() {
                             { date: Date.now() },
                         ],
                     },
-                    mark: { type: "rule", color: "red", size: 2, },
+                    mark: { type: "rule", color: "red", size: 2, clip: true},
                     encoding: {
                       x: {timeUnit: "hoursminutes", field: "date", type: "temporal", },
                     },
                   },
-            ]
+            ],
         }
 
         vegaEmbed("#vega-gantt", vlSpec, {renderer: "svg"});
@@ -424,8 +436,7 @@ function stopPomodoro() {
     ];
     let objectStoreRequest = objectStore.add(newItem[0]);
     objectStoreRequest.onsuccess = function () {
-        create_time_table_plot();
-        create_gantt_chart();
+        create_gantt_chart(gantt_properties);
     }
     objectStoreRequest.onerror = function (event) {
         console.log("failed to record pomodoro");
@@ -539,6 +550,16 @@ window.onload = function () {
 
     pomodoroDurationLabel.innerHTML = "Pomodoro duration: " + pomodoroDurationValue;
 
+    document.getElementById("gantt_chart_min_hours").value = gantt_properties.xmin_hours;
+    document.getElementById("gantt_chart_max_hours").value = gantt_properties.xmax_hours;
+
+    document.getElementById("gantt_chart_min_hours").addEventListener("change",()=>{
+        gantt_properties.xmin_hours = Number(document.getElementById("gantt_chart_min_hours").value);
+    });
+    document.getElementById("gantt_chart_max_hours").addEventListener("change",()=>{
+        gantt_properties.xmax_hours = Number(document.getElementById("gantt_chart_max_hours").value);
+    });
+
 
     if (!window.indexedDB) {
         console.log("Your browser doesn't support IndexedDB");
@@ -555,10 +576,8 @@ window.onload = function () {
     DBOpenRequest.onsuccess = (event) => {
         // store the result of opening the database in the db variable
         db = DBOpenRequest.result;
-        create_time_table_plot();
-        create_gantt_chart();
-        setInterval(create_time_table_plot, 60 * 1000);
-        setInterval(create_gantt_chart, 60 * 1000);
+        create_gantt_chart(gantt_properties);
+        setInterval(create_gantt_chart(gantt_properties), 60 * 1000);
     };
 
     DBOpenRequest.onupgradeneeded = function (event) {
