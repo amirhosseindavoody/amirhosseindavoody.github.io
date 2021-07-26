@@ -164,11 +164,11 @@ function create_gantt_chart(gantt_properties) {
                     data: {
                         values: res
                     },
-                    mark: { type: "bar", cornerRadius: 5, clip: true },
+                    mark: { type: "bar", cornerRadius: 5, clip: true, tooltip: true },
                     encoding: {
                         y: { timeUnit: "date", field: 'date', type: 'temporal', title:"Date",  axis: {grid: true, format: "%m/%d"}  },
-                        x: { timeUnit: "hoursminutes", field: 'start', type: 'temporal', title: "Time", axis: { grid: true }, "scale": { "domain": [{ "hours": gantt_properties.xmin_hours }, { "hours": gantt_properties.xmax_hours }] } },
-                        x2: { timeUnit: "hoursminutes", field: 'end', type: 'temporal' },
+                        x: { timeUnit: "hoursminutes", field: 'start', type: 'temporal', title: "Start time", axis: { grid: true }, "scale": { "domain": [{ "hours": gantt_properties.xmin_hours }, { "hours": gantt_properties.xmax_hours }] } },
+                        x2: { timeUnit: "hoursminutes", field: 'end', type: 'temporal', title: "End time"},
 
                     }
                 },
