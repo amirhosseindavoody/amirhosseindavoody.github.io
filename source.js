@@ -198,7 +198,6 @@ function create_gantt_chart(gantt_properties) {
             }
         })
 
-        console.log(res);
         let vlSpec = {
             $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
             description: 'Histogram of active time',
@@ -211,11 +210,11 @@ function create_gantt_chart(gantt_properties) {
                     data: {
                         values: res
                     },
-                    mark: { type: "bar", cornerRadius: 5, clip: true },
+                    mark: { type: "bar", cornerRadius: 5, clip: true, tooltip: true },
                     encoding: {
                         x: { timeUnit: "date", field: 'date', type: 'temporal', title: "Day", axis: {grid: true, format: "%m/%d"}},
                         y: {
-                            aggregate: "sum", field: 'duration', type: 'quantitative', title: "Work hours",
+                            aggregate: "sum", field: 'duration', type: 'quantitative', title: "Work hours", format: ".2f"
                         },
 
                     }
