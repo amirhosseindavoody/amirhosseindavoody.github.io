@@ -151,16 +151,15 @@ function create_gantt_chart(gantt_properties) {
     getAllPomodoroLastNDays(7, (results) => {
         let res = results.map(function(r) {
             let date = r.startDate.getTime();
-            let start = r.startDate.getTime()+30*1000;
-            let end = r.endDate.getTime()-30*1000;
-            if (r.endDate.getDate()!=r.startDate.getDate()) {
-                end = new Date(r.startDate).setHours(24,0,0,0);
+            let start = r.startDate.getTime() + 30 * 1000;
+            let end = r.endDate.getTime() - 30 * 1000;
+            if (r.endDate.getDate() != r.startDate.getDate()) {
+                end = new Date(r.startDate).setHours(24, 0, 0, 0);
             }
             return {
-                "date":r.startDate.getTime(),
-                "start" : r.startDate.getTime()+30*1000,
-                "end" : r.endDate.getTime()-30*1000,
-                // "duration": (r.endDate.getTime() - r.startDate.getTime()) / (60 * 60 * 1000)
+                "date": date,
+                "start": start,
+                "end": end,
             }
         })
         let vlSpec = {
