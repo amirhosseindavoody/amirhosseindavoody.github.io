@@ -154,7 +154,8 @@ function create_gantt_chart(gantt_properties) {
             let start = r.startDate.getTime() + 30 * 1000;
             let end = r.endDate.getTime() - 30 * 1000;
             if (r.endDate.getDate() != r.startDate.getDate()) {
-                end = new Date(r.startDate).setHours(24, 0, 0, 0);
+                console.log("end date is the next day of the start date");
+                end = new Date(r.startDate).setHours(23, 59, 0, 0);
             }
             return {
                 "date": date,
