@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Pomodoro tracker</title>
+</head>
+
+<body>
+
+    <h1>My pomodoro application</h1>
+    <hr>
+    <div>
+        <button id="control-button"></button>
+        <br>
+        <label id="pomodoro-duration-label" for="pomodoro-duration"></label>
+        <input type="range" min="5" max="60" step="1" id="pomodoro-duration-input" value="25">
+        <h2 id="timer"></h2>
+    </div>
+
+    <hr>
+
+    <div id="plot-area"></div>
+
+    <div id="vega-gantt"></div>
+    <div id="vega-histogram"></div>
+
+    <hr>
+    <div>
+        <h2>Instructions</h2>
+        <ul>
+            <li>Pomodoros that are stopped early are shown in red, pomodoros that are finished to the end are shown in blue</li>
+            <li>The tracker does not record work periods (pomodoro sessions) that are shorter than 5 minutes</li>
+          </ul>
+    </div>
+    <hr>
+    <h2>Gantt chart properties</h2>
+    <div>
+        <label for="gantt_chart_min_hours">Time range in hours:</label>
+        <input type="number" id="gantt_chart_min_hours" name="gantt_chart_min_hours" min="0" max="24" step="1">
+        <input type="number" id="gantt_chart_max_hours" name="gantt_chart_max_hours" min="0" max="24" step="1">
+    </div>
+    <hr>
+    <div>
+        <button onclick="cleanDataAndReload()">Clean data and reload</button>
+    </div>
+</body>
+
+<script src="./source.js"></script>
+
+</html>
