@@ -37,11 +37,13 @@ jobs:
           fi
 
       - name: Use GitHub Actions for Pages deployment
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh api -X PUT "repos/${{ github.repository }}/pages" \
-            -f build_type=workflow
+            -f build_type=workflow || \
+            echo "::warning::Could not switch Pages to GitHub Actions automatically. Set Source to GitHub Actions in repository settings if the site shows the README instead of the book."
 
       - name: Set up Pixi
         uses: prefix-dev/setup-pixi@v0.9.6
