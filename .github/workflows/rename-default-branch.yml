@@ -1,0 +1,39 @@
+name: Finish master to main rename
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  administration: write
+  contents: write
+
+jobs:
+  set-default-branch:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set default branch to main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          current_default="$(gh api "repos/${GITHUB_REPOSITORY}" --jq '.default_branch')"
+          if [ "$current_default" != "main" ]; then
+            gh api "repos/${GITHUB_REPOSITORY}" -X PATCH -f default_branch=main
+            echo "Default branch changed from ${current_default} to main."
+          else
+            echo "Default branch is already main."
+          fi
+
+      - name: Delete legacy master branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh api "repos/${GITHUB_REPOSITORY}/git/ref/heads/master" >/dev/null 2>&1; then
+            gh api "repos/${GITHUB_REPOSITORY}/git/refs/heads/master" -X DELETE
+            echo "Deleted legacy master branch."
+          else
+            echo "No master branch to delete."
+          fi
