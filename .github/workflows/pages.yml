@@ -5,24 +5,16 @@ on:
     branches:
       - main
   workflow_dispatch:
-    inputs:
-      artifact_run_id:
-        description: Build workflow run ID whose artifact should be deployed
-        required: true
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
-  actions: write
 
 concurrency:
   group: pages
   cancel-in-progress: false
 
 jobs:
-  build:
-    if: github.event_name == 'push'
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -41,43 +33,10 @@ jobs:
           pixi run build
           touch book/.nojekyll
 
-      - name: Upload site artifact
-        uses: actions/upload-artifact@v4
+      - name: Deploy built site to master
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          name: mdbook-site
-          path: book
-          retention-days: 1
-
-      - name: Sync main to master
-        run: git push --force origin HEAD:refs/heads/master
-
-      - name: Trigger deployment on master
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh workflow run pages.yml \
-            --ref master \
-            -f artifact_run_id="${{ github.run_id }}"
-
-  deploy:
-    if: github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Download site artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: mdbook-site
-          github-token: ${{ github.token }}
-          run-id: ${{ github.event.inputs.artifact_run_id }}
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ github.token }}
+          publish_dir: ./book
+          publish_branch: master
+          commit_message: "Deploy mdBook site from ${{ github.sha }}"
