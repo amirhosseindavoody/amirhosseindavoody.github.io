@@ -17,7 +17,7 @@ $$
 \mathbf{J} = \mathbf{G}\,\mathbf{v} + \mathbf{i}_s
 $$
 
-are rendered at build time with KaTeX. Diagrams use Mermaid:
+are rendered with KaTeX (via `theme/head.hbs`). Diagrams use Mermaid:
 
 ```mermaid
 flowchart LR

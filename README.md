@@ -11,7 +11,7 @@ A private personal knowledge base rendered with [mdBook 0.5](https://github.com/
 
 Features:
 
-- LaTeX math (inline `$...$` and display `$$...$$`) via [mdbook-katex](https://github.com/lzanini/mdbook-katex)
+- LaTeX math (inline `$...$` and display `$$...$$`) via KaTeX in [`theme/head.hbs`](theme/head.hbs)
 - [Mermaid](https://mermaid.js.org/) diagrams via [mdbook-mermaid](https://github.com/badboy/mdbook-mermaid)
 - Markdown source lives in [`docs/`](docs/)
 
@@ -23,17 +23,23 @@ Install [Pixi](https://pixi.sh/latest/#installation):
 curl -fsSL https://pixi.sh/install.sh | bash
 ```
 
+## Setup
+
+Install mdBook and preprocessors from conda-forge:
+
+```bash
+pixi add mdbook=0.5 mdbook-mermaid
+pixi install
+```
+
+These are already declared in [`pixi.toml`](pixi.toml); running `pixi install` is enough after cloning.
+
 ## Local development
 
 ```bash
-# Install mdBook + preprocessors (first run only) and build
-pixi run build
-
-# Live preview at http://127.0.0.1:3000
-pixi run serve
-
-# Remove build output
-pixi run clean
+pixi run build   # static site in ./book/
+pixi run serve   # live preview at http://127.0.0.1:3000
+pixi run clean   # remove ./book/
 ```
 
 ## Project layout
@@ -41,7 +47,9 @@ pixi run clean
 ```
 book.toml          # mdBook configuration (source: docs/)
 docs/              # Markdown chapters and SUMMARY.md
-pixi.toml          # Pixi tasks and Rust toolchain for local builds
+pixi.toml          # Pixi dependencies and tasks
+pixi.lock          # Locked conda-forge environment
+theme/head.hbs     # KaTeX client-side math rendering
 .github/workflows/ # GitHub Pages deployment
 ```
 
@@ -59,7 +67,7 @@ On GitHub: **Settings → General → Danger Zone → Change repository visibili
 
 - **Source:** GitHub Actions
 
-The workflow [`.github/workflows/pages.yml`](.github/workflows/pages.yml) builds mdBook and deploys on every push to `master` or `main`.
+The workflow [`.github/workflows/pages.yml`](.github/workflows/pages.yml) uses Pixi to build mdBook and deploys on every push to `master` or `main`.
 
 ### 3. Restrict Pages visibility (important)
 
@@ -87,4 +95,4 @@ After merging to `master`:
 
 ## Configuration
 
-Edit [`book.toml`](book.toml) to change theme, title, or preprocessor options. Update the placeholder `git-repository-url` and `edit-url-template` fields with your actual GitHub repository path.
+Edit [`book.toml`](book.toml) to change theme, title, or preprocessor options.

@@ -15,11 +15,4 @@ mathjax-support = false
 git-repository-url = "https://github.com/amirhosseindavoody/amirhosseindavoody.github.io"
 edit-url-template = "https://github.com/amirhosseindavoody/amirhosseindavoody.github.io/edit/master/{path}"
 
-[preprocessor.katex]
-after = ["links"]
-throw-on-error = true
-pre-render = true
-block-delimiter = { left = "$$", right = "$$" }
-inline-delimiter = { left = "$", right = "$" }
-
 [preprocessor.mermaid]

@@ -3,7 +3,6 @@
 
 # Pixi
 .pixi/
-pixi.lock
 
 # Rust / Cargo (local tool installs)
 /target/
