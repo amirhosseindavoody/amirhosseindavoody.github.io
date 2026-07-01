@@ -11,7 +11,7 @@ The MNA system is $\mathbf{A}\mathbf{x} = \mathbf{b}$ with
 $$
 \mathbf{A} =
 \begin{bmatrix}
-\mathbf{G} & \mathbf{B} \\
+\mathbf{G} & \mathbf{B} \\\\
 \mathbf{C} & \mathbf{D}
 \end{bmatrix}, \quad
 \mathbf{x} =
@@ -112,7 +112,7 @@ g_d = \frac{di_D}{dv_D}\bigg|_{v_D^{(k)}} = \frac{I_S}{n V_T} e^{v_D^{(k)} / (n 
 $$
 
 $$
-I_\text{eq} = i_D(v_D^{(k)}) - g_d \, v_D^{(k)}
+I_\text{eq} = i_D(v_D^{(k)}) - g_d \thinspace  v_D^{(k)}
 $$
 
 Stamp $g_d$ as a resistor between $p$ and $n$, and add $I_\text{eq}$ to the RHS (positive into node $p$).

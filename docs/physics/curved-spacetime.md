@@ -23,13 +23,13 @@ In flat spacetime with inertial coordinates, $g_{\mu\nu} = \eta_{\mu\nu}$ and $\
 Matter and energy curve spacetime via
 
 $$
-G_{\mu\nu} + \Lambda g_{\mu\nu} = 8\pi G\, T_{\mu\nu}
+G_{\mu\nu} + \Lambda g_{\mu\nu} = 8\pi G\thinspace  T_{\mu\nu}
 $$
 
 where
 
 $$
-G_{\mu\nu} = R_{\mu\nu} - \frac{1}{2} R\, g_{\mu\nu}
+G_{\mu\nu} = R_{\mu\nu} - \frac{1}{2} R\thinspace  g_{\mu\nu}
 $$
 
 is the **Einstein tensor**, $R_{\mu\nu}$ the Ricci tensor, $R$ the Ricci scalar, $\Lambda$ the cosmological constant, and $T_{\mu\nu}$ the stress-energy tensor.
@@ -68,7 +68,7 @@ $$
 ds^2 = -\left(1 - \frac{2M}{r}\right) dt^2 + \left(1 - \frac{2M}{r}\right)^{-1} dr^2 + r^2 d\Omega^2
 $$
 
-where $d\Omega^2 = d\theta^2 + \sin^2\theta\, d\phi^2$.
+where $d\Omega^2 = d\theta^2 + \sin^2\theta\thinspace d\phi^2$.
 
 - **Event horizon** at $r = 2M$
 - **Gravitational redshift** — clocks run slower in stronger gravitational fields
