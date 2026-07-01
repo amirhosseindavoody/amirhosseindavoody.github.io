@@ -4,31 +4,25 @@ on:
   push:
     branches:
       - main
-      - master
   workflow_dispatch:
+    inputs:
+      artifact_run_id:
+        description: Build workflow run ID whose artifact should be deployed
+        required: true
 
 permissions:
   contents: write
   pages: write
   id-token: write
+  actions: write
 
 concurrency:
   group: pages
   cancel-in-progress: false
 
 jobs:
-  sync-main-to-master:
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Sync main to master for Pages deployment
-        run: git push origin HEAD:refs/heads/master
-
   build:
-    if: github.ref == 'refs/heads/master'
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -47,19 +41,43 @@ jobs:
           pixi run build
           touch book/.nojekyll
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Upload site artifact
+        uses: actions/upload-artifact@v4
         with:
+          name: mdbook-site
           path: book
+          retention-days: 1
+
+      - name: Sync main to master
+        run: git push origin HEAD:refs/heads/master
+
+      - name: Trigger deployment on master
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run pages.yml \
+            --ref master \
+            -f artifact_run_id="${{ github.run_id }}"
 
   deploy:
-    if: github.ref == 'refs/heads/master'
-    needs: build
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Download site artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: mdbook-site
+          github-token: ${{ github.token }}
+          run-id: ${{ github.event.inputs.artifact_run_id }}
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
