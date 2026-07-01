@@ -49,7 +49,7 @@ jobs:
           retention-days: 1
 
       - name: Sync main to master
-        run: git push origin HEAD:refs/heads/master
+        run: git push --force origin HEAD:refs/heads/master
 
       - name: Trigger deployment on master
         env:
