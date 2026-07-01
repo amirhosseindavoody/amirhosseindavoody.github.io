@@ -1,0 +1,14 @@
+[workspace]
+name = "personal-knowledge-base"
+description = "Personal knowledge base built with mdBook"
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-64", "osx-arm64"]
+
+[dependencies]
+mdbook = "0.5.*"
+mdbook-mermaid = ">=0.17.0,<0.18"
+
+[tasks]
+build = "mdbook build"
+serve = "mdbook serve --hostname 127.0.0.1 --port 3000"
+clean = "rm -rf book"

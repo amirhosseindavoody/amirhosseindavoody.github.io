@@ -1,0 +1,18 @@
+[book]
+title = "Personal Knowledge Base"
+authors = ["Personal Notes"]
+language = "en"
+src = "docs"
+
+[build]
+build-dir = "book"
+create-missing = true
+
+[output.html]
+default-theme = "rust"
+preferred-dark-theme = "navy"
+mathjax-support = false
+git-repository-url = "https://github.com/amirhosseindavoody/amirhosseindavoody.github.io"
+edit-url-template = "https://github.com/amirhosseindavoody/amirhosseindavoody.github.io/edit/master/{path}"
+
+[preprocessor.mermaid]

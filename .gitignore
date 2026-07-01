@@ -1,3 +1,19 @@
+# mdBook output
+/book/
+
+# Pixi
+.pixi/
+
+# Rust / Cargo (local tool installs)
+/target/
+/bin/
+
+# OS
 .DS_Store
-TiddlyWiki.app
-index.html_backup
+Thumbs.db
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*~
