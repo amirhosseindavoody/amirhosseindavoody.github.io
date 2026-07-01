@@ -66,11 +66,10 @@ On GitHub: **Settings → General → Danger Zone → Change repository visibili
 
 **Settings → Pages → Build and deployment:**
 
-- **Source:** **GitHub Actions** (not "Deploy from a branch")
+- **Recommended:** **GitHub Actions**
+- **Also works:** **Deploy from a branch → `main` → `/`** — the workflow publishes the built mdBook HTML to `main` (with `.nojekyll`) alongside your source files
 
-The workflow builds the mdBook site and deploys on every push to `main`. If **Source** is set to **Deploy from a branch**, GitHub serves raw Markdown via Jekyll instead of the built book — you'll see the README on the homepage, no sidebar navigation, and broken math rendering.
-
-The deployment workflow also sets Pages to GitHub Actions automatically when possible.
+If you see the README instead of the mdBook sidebar, Pages is serving Jekyll output rather than the built book. Either switch **Source** to **GitHub Actions**, or wait for the workflow to publish `index.html` and `.nojekyll` to `main`.
 
 ### 3. Restrict Pages visibility (important)
 
