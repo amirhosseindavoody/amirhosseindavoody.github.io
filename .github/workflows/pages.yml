@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write
+  pages: write
 
 concurrency:
   group: pages
@@ -40,3 +41,8 @@ jobs:
           publish_dir: ./book
           publish_branch: master
           commit_message: "Deploy mdBook site from ${{ github.sha }}"
+
+      - name: Request GitHub Pages build
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds"
