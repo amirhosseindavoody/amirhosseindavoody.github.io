@@ -62,13 +62,24 @@ This site is intended to stay **private** — only you (and collaborators you ex
 
 On GitHub: **Settings → General → Danger Zone → Change repository visibility → Private**.
 
-### 2. Enable GitHub Pages from Actions
+### 2. Enable GitHub Pages from Actions (required for `main`)
 
 **Settings → Pages → Build and deployment:**
 
-- **Source:** GitHub Actions
+- **Source:** **GitHub Actions** (not "Deploy from a branch")
 
 The workflow [`.github/workflows/pages.yml`](.github/workflows/pages.yml) uses Pixi to build mdBook and deploys on every push to `main`.
+
+If **Source** is still set to **Deploy from a branch → `master`**, the build job will succeed but the deploy step fails with:
+
+> Invalid deployment branch … Deployments are only allowed from master
+
+That happens because GitHub ties Action-based deployments to the branch configured under **Pages → Source**. Switching **Source** to **GitHub Actions** removes that restriction so you can deploy from `main` and delete `master`.
+
+After changing **Source**, optionally finish the branch rename:
+
+1. **Settings → General → Default branch** → set to `main`
+2. Delete the old `master` branch once you no longer need it
 
 ### 3. Restrict Pages visibility (important)
 
