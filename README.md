@@ -62,14 +62,13 @@ This site is intended to stay **private** — only you (and collaborators you ex
 
 On GitHub: **Settings → General → Danger Zone → Change repository visibility → Private**.
 
-### 2. Enable GitHub Pages (required)
+### 2. Enable GitHub Pages from GitHub Actions
 
 **Settings → Pages → Build and deployment:**
 
-- **Recommended:** **GitHub Actions**
-- **Also works:** **Deploy from a branch → `main` → `/`** — the workflow publishes the built mdBook HTML to `main` (with `.nojekyll`) alongside your source files
+- **Source:** **GitHub Actions**
 
-If you see the README instead of the mdBook sidebar, Pages is serving Jekyll output rather than the built book. Either switch **Source** to **GitHub Actions**, or wait for the workflow to publish `index.html` and `.nojekyll` to `main`.
+The workflow [`.github/workflows/pages.yml`](.github/workflows/pages.yml) builds the mdBook site with Pixi and publishes it on every push to `main`. Source files stay in `docs/`; the built site is deployed as a Pages artifact (not committed to the branch).
 
 ### 3. Restrict Pages visibility (important)
 
