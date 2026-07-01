@@ -27,6 +27,9 @@ jobs:
         with:
           manifest-path: pixi.toml
 
+      - name: Install Mermaid assets
+        run: pixi run mdbook-mermaid install .
+
       - name: Build site
         run: |
           pixi run build
