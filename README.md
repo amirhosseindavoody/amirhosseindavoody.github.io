@@ -30,9 +30,10 @@ Install mdBook and preprocessors from conda-forge:
 ```bash
 pixi add mdbook=0.5 mdbook-mermaid
 pixi install
+pixi run mdbook-mermaid install .
 ```
 
-These are already declared in [`pixi.toml`](pixi.toml); running `pixi install` is enough after cloning.
+These are already declared in [`pixi.toml`](pixi.toml). After cloning, run `pixi install` and then `pixi run mdbook-mermaid install .` once to copy the Mermaid browser assets into the repo root.
 
 ## Local development
 
