@@ -4,10 +4,11 @@ on:
   push:
     branches:
       - main
+      - master
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -16,14 +17,22 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  sync-main-to-master:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
+      - name: Sync main to master for Pages deployment
+        run: git push origin HEAD:refs/heads/master
+
+  build:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Set up Pixi
         uses: prefix-dev/setup-pixi@v0.9.6
@@ -44,6 +53,7 @@ jobs:
           path: book
 
   deploy:
+    if: github.ref == 'refs/heads/master'
     needs: build
     runs-on: ubuntu-latest
     environment:
