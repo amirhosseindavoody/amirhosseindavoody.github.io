@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -17,30 +17,27 @@ concurrency:
 
 jobs:
   build-and-deploy:
-    if: github.event_name == 'workflow_dispatch' || !contains(github.event.head_commit.message, '[skip ci]')
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.pages-config.outputs.url }}
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Read GitHub Pages configuration
-        id: pages-config
+      - name: Verify GitHub Pages uses GitHub Actions
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if ! gh api "repos/${{ github.repository }}/pages" > pages.json 2>/dev/null; then
-            echo "::error::GitHub Pages is not enabled. Open Settings → Pages and enable it."
+          gh api "repos/${{ github.repository }}/pages" > pages.json
+          BUILD_TYPE=$(jq -r '.build_type // "legacy"' pages.json)
+          echo "Pages build type: ${BUILD_TYPE}"
+          if [ "${BUILD_TYPE}" != "workflow" ]; then
+            echo "::error::GitHub Pages Source must be set to GitHub Actions."
+            echo "Open Settings → Pages → Build and deployment → Source → GitHub Actions"
             echo "https://github.com/${{ github.repository }}/settings/pages"
             exit 1
           fi
-
-          BUILD_TYPE=$(jq -r '.build_type // "legacy"' pages.json)
-          echo "build_type=${BUILD_TYPE}" >> "$GITHUB_OUTPUT"
-          echo "url=$(jq -r '.html_url // ""' pages.json)" >> "$GITHUB_OUTPUT"
-          echo "Pages build type: ${BUILD_TYPE}"
 
       - name: Set up Pixi
         uses: prefix-dev/setup-pixi@v0.9.6
@@ -55,47 +52,11 @@ jobs:
           pixi run build
           touch book/.nojekyll
 
-      - name: Deploy via GitHub Actions
-        if: steps.pages-config.outputs.build_type == 'workflow'
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: book
 
-      - name: Publish to GitHub Pages
-        if: steps.pages-config.outputs.build_type == 'workflow'
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-      - name: Publish built site to main branch
-        if: steps.pages-config.outputs.build_type != 'workflow'
-        run: |
-          cp -a book/. .
-          git add -A
-          git diff --staged --quiet && echo "No site changes to publish" && exit 0
-          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
-            commit -m "deploy: mdBook site from ${{ github.sha }} [skip ci]"
-          git push
-
-      - name: Request GitHub Pages build
-        if: steps.pages-config.outputs.build_type != 'workflow'
-        continue-on-error: true
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh api -X POST "repos/${{ github.repository }}/pages/builds"
-
-      - name: Verify mdBook homepage
-        run: |
-          URL="${{ steps.pages-config.outputs.url }}"
-          for attempt in $(seq 1 18); do
-            HTML=$(curl -fsSL "$URL" || true)
-            if echo "$HTML" | grep -q 'mdbook-content'; then
-              echo "mdBook homepage verified at ${URL}"
-              exit 0
-            fi
-            echo "Waiting for mdBook homepage (attempt ${attempt}/18)..."
-            sleep 10
-          done
-          echo "::error::Homepage at ${URL} is not serving the mdBook build."
-          echo "If Pages Source is 'Deploy from a branch', ensure the latest deploy commit is on main and includes index.html plus .nojekyll."
-          echo "Recommended: Settings → Pages → Source → GitHub Actions."
-          exit 1
