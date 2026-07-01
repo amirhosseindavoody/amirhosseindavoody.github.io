@@ -1,6 +1,6 @@
 # Personal Knowledge Base
 
-A private personal knowledge base rendered with [mdBook 0.5](https://github.com/rust-lang/mdBook), managed with [Pixi](https://pixi.sh), and published to **private GitHub Pages** on every push to `master` (or `main`).
+A private personal knowledge base rendered with [mdBook 0.5](https://github.com/rust-lang/mdBook), managed with [Pixi](https://pixi.sh), and published to **private GitHub Pages** on every push to `main`.
 
 ## Contents
 
@@ -67,7 +67,7 @@ On GitHub: **Settings → General → Danger Zone → Change repository visibili
 
 - **Source:** GitHub Actions
 
-The workflow [`.github/workflows/pages.yml`](.github/workflows/pages.yml) uses Pixi to build mdBook and deploys on every push to `master` or `main`.
+The workflow [`.github/workflows/pages.yml`](.github/workflows/pages.yml) uses Pixi to build mdBook and deploys on every push to `main`.
 
 ### 3. Restrict Pages visibility (important)
 
@@ -81,7 +81,7 @@ Only users with read access to this repository can view the published site when 
 
 ### 4. First deployment
 
-After merging to `master`:
+After merging to `main`:
 
 1. Push triggers the **Deploy mdBook to GitHub Pages** workflow.
 2. Under **Actions**, confirm the workflow succeeded.
@@ -91,7 +91,7 @@ After merging to `master`:
 
 1. Add a Markdown file under `docs/`.
 2. Link it in [`docs/SUMMARY.md`](docs/SUMMARY.md).
-3. Push to `master` — the site rebuilds automatically.
+3. Push to `main` — the site rebuilds automatically.
 
 ## Configuration
 
