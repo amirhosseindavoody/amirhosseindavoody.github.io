@@ -1,34 +1,28 @@
-# Introduction
+# About me
 
-This is a personal knowledge base for circuit simulation and mathematical physics. Content is written in Markdown, rendered with [mdBook 0.5](https://github.com/rust-lang/mdBook), and published privately via GitHub Pages.
+Hi — I'm **Amirhossein Davoody**. I live in Portland and work at [Intel](https://www.linkedin.com/company/intel-corporation) on statistical methods for circuit modeling.
 
-## What you'll find here
+I've spent most of my career bouncing between physics, software, and (more recently) machine learning. I started in a cleanroom at the University of Tehran, did a long stretch at UW–Madison studying quantum transport and nanostructures, and have since worked on everything from transistor reliability models to large-scale production code.
 
-| Topic | Focus |
-|-------|-------|
-| **SPICE / MNA** | Modified nodal analysis, matrix stamping, Newton–Raphson iteration |
-| **Geometry & physics** | Minkowski spacetime, curved manifolds, and their role in relativity |
+## Where I've worked
 
-## Rendering features
+**Intel** — I'm here now, working on circuit modeling. I was also here earlier (2018–2020) doing reliability modeling and building data-analysis tools for logic circuits.
 
-Inline math like the conductance matrix entry $G_{ij}$ and display equations such as
+**Google** — Software engineer, 2020–2023.
 
-$$
-\mathbf{J} = \mathbf{G}\thinspace \mathbf{v} + \mathbf{i}_s
-$$
+**UW–Madison** — This is where I did my PhD, a postdoc, and built [AtomTouch](https://mobile.wisc.edu/mli-projects/project-atomtouch/), a molecular-dynamics app for phones and tablets. Research topics included exciton transfer in carbon nanotubes, thermoelectric nanowires, and quantum state evolution.
 
-are rendered with KaTeX (via `theme/head.hbs`). Diagrams use Mermaid:
+**University of Tehran** — Undergrad research: cleanroom work, sputtering, and amorphous-silicon transistors.
 
-```mermaid
-flowchart LR
-    A[Circuit netlist] --> B[Stamp into MNA matrix]
-    B --> C[Newton-Raphson solve]
-    C --> D[Node voltages & branch currents]
-```
+## School
 
-## Local development
+PhD and two master's degrees from UW–Madison (ECE and physics). BS in electrical engineering from the University of Tehran.
 
-```bash
-pixi run serve   # live preview at http://127.0.0.1:3000
-pixi run build   # static site in ./book/
-```
+## This site
+
+Mostly my own notes — circuit simulation, matrix stamping, spacetime geometry, things I look up or work through. Messy notebook energy, not a finished book.
+
+## Links
+
+- [LinkedIn](https://www.linkedin.com/in/amirhosseindavoody)
+- [GitHub](https://github.com/amirhosseindavoody)
