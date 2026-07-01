@@ -1,0 +1,14 @@
+[workspace]
+name = "personal-knowledge-base"
+description = "Personal knowledge base built with mdBook"
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-64", "osx-arm64"]
+
+[tasks]
+install-tools = "bash scripts/install-mdbook-tools.sh"
+build = { cmd = "mdbook build", depends-on = ["install-tools"] }
+serve = { cmd = "mdbook serve --hostname 127.0.0.1 --port 3000", depends-on = ["install-tools"] }
+clean = "rm -rf book"
+
+[activation]
+env = { PATH = "$HOME/.local/bin:$PATH" }
