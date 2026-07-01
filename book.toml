@@ -13,6 +13,6 @@ default-theme = "rust"
 preferred-dark-theme = "navy"
 mathjax-support = false
 git-repository-url = "https://github.com/amirhosseindavoody/amirhosseindavoody.github.io"
-edit-url-template = "https://github.com/amirhosseindavoody/amirhosseindavoody.github.io/edit/master/{path}"
+edit-url-template = "https://github.com/amirhosseindavoody/amirhosseindavoody.github.io/edit/main/{path}"
 
 [preprocessor.mermaid]
