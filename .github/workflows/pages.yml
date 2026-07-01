@@ -5,21 +5,51 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      source_sha:
+        description: Commit on main to build and deploy
+        required: true
 
 permissions:
   contents: write
   pages: write
+  id-token: write
+  actions: write
 
 concurrency:
   group: pages
   cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  build-on-main:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Sync workflow to master
+        run: git push --force origin HEAD:refs/heads/master
+
+      - name: Trigger deployment on master
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run pages.yml \
+            --ref master \
+            -f source_sha="${{ github.sha }}"
+
+  deploy-from-master:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout source commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.source_sha }}
 
       - name: Set up Pixi
         uses: prefix-dev/setup-pixi@v0.9.6
@@ -34,31 +64,11 @@ jobs:
           pixi run build
           touch book/.nojekyll
 
-      - name: Deploy built site to master
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ github.token }}
-          publish_dir: ./book
-          publish_branch: master
-          commit_message: "Deploy mdBook site from ${{ github.sha }}"
+          path: book
 
-      - name: Ensure GitHub Pages uses master
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          if gh api "repos/${{ github.repository }}/pages" >/dev/null 2>&1; then
-            gh api -X PUT "repos/${{ github.repository }}/pages" \
-              -f build_type=legacy \
-              -f "source[branch]=master" \
-              -f "source[path]=/"
-          else
-            gh api -X POST "repos/${{ github.repository }}/pages" \
-              -f build_type=legacy \
-              -f "source[branch]=master" \
-              -f "source[path]=/"
-          fi
-
-      - name: Request GitHub Pages build
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh api -X POST "repos/${{ github.repository }}/pages/builds"
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
