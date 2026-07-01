@@ -10,7 +10,6 @@ permissions:
   contents: read
   pages: write
   id-token: write
-  administration: write
 
 concurrency:
   group: pages
@@ -32,12 +31,6 @@ jobs:
         run: |
           if gh api "repos/${{ github.repository }}/pages" >/dev/null 2>&1; then
             echo "GitHub Pages is enabled"
-            exit 0
-          fi
-
-          echo "GitHub Pages is not enabled. Attempting to enable it for Actions..."
-          if gh api -X POST "repos/${{ github.repository }}/pages" -f build_type=workflow; then
-            echo "Enabled GitHub Pages with GitHub Actions"
             exit 0
           fi
 
