@@ -15,6 +15,11 @@ mathjax-support = false
 git-repository-url = "https://github.com/amirhosseindavoody/amirhosseindavoody.github.io"
 edit-url-template = "https://github.com/amirhosseindavoody/amirhosseindavoody.github.io/edit/main/{path}"
 additional-js = ["mermaid.min.js", "mermaid-init.js"]
+additional-css = ["theme/last-changed.css"]
 
 [preprocessor.mermaid]
 command = "mdbook-mermaid"
+
+[preprocessor.last-changed]
+command = "mdbook-last-changed"
+renderer = ["html"]

@@ -13,6 +13,7 @@ Features:
 
 - LaTeX math (inline `$...$` and display `$$...$$`) via KaTeX in [`theme/head.hbs`](theme/head.hbs)
 - [Mermaid](https://mermaid.js.org/) diagrams via [mdbook-mermaid](https://github.com/badboy/mdbook-mermaid)
+- Last-updated date and commit link on every page via [mdbook-last-changed](https://github.com/badboy/mdbook-last-changed) (from git history at build time)
 - Markdown source lives in [`docs/`](docs/)
 
 ## Prerequisites
@@ -35,6 +36,8 @@ pixi run mdbook-mermaid install .
 
 These are already declared in [`pixi.toml`](pixi.toml). After cloning, run `pixi install` and then `pixi run mdbook-mermaid install .` once to copy the Mermaid browser assets into the repo root.
 
+The first `pixi run build` also installs `mdbook-last-changed` via Cargo (Rust is included in the Pixi environment).
+
 ## Local development
 
 ```bash
@@ -48,6 +51,7 @@ pixi run clean   # remove ./book/
 ```
 book.toml          # mdBook configuration (source: docs/)
 docs/              # Markdown chapters and SUMMARY.md
+theme/             # KaTeX head template and last-updated footer styles
 pixi.toml          # Pixi dependencies and tasks
 pixi.lock          # Locked conda-forge environment
 theme/head.hbs     # KaTeX client-side math rendering
