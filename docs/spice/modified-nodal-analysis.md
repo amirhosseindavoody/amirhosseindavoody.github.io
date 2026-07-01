@@ -34,8 +34,7 @@ $$
 \mathbf{v} \\\\
 \mathbf{i}_b
 \end{bmatrix}
-=
-\begin{bmatrix}
+= \begin{bmatrix}
 \mathbf{i}_s \\\\
 \mathbf{e}_s
 \end{bmatrix}
@@ -82,8 +81,7 @@ $$
 \begin{bmatrix}
 \vdots \\ v_p \\ v_n \\ \vdots \\ i_s \\ \vdots
 \end{bmatrix}
-=
-\begin{bmatrix}
+= \begin{bmatrix}
 \vdots \\ V_s \\ \vdots
 \end{bmatrix}
 $$
