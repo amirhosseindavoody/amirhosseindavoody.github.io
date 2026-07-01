@@ -42,6 +42,22 @@ jobs:
           publish_branch: master
           commit_message: "Deploy mdBook site from ${{ github.sha }}"
 
+      - name: Ensure GitHub Pages uses master
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh api "repos/${{ github.repository }}/pages" >/dev/null 2>&1; then
+            gh api -X PUT "repos/${{ github.repository }}/pages" \
+              -f build_type=legacy \
+              -f "source[branch]=master" \
+              -f "source[path]=/"
+          else
+            gh api -X POST "repos/${{ github.repository }}/pages" \
+              -f build_type=legacy \
+              -f "source[branch]=master" \
+              -f "source[path]=/"
+          fi
+
       - name: Request GitHub Pages build
         env:
           GH_TOKEN: ${{ github.token }}
