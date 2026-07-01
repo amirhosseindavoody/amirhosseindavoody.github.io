@@ -68,14 +68,13 @@ jobs:
 
       - name: Publish built site to main branch
         if: steps.pages-config.outputs.build_type != 'workflow'
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ github.token }}
-          publish_dir: ./book
-          publish_branch: main
-          keep_files: true
-          enable_jekyll: false
-          commit_message: "deploy: mdBook site from ${{ github.sha }} [skip ci]"
+        run: |
+          cp -a book/. .
+          git add -A
+          git diff --staged --quiet && echo "No site changes to publish" && exit 0
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -m "deploy: mdBook site from ${{ github.sha }} [skip ci]"
+          git push
 
       - name: Request GitHub Pages build
         if: steps.pages-config.outputs.build_type != 'workflow'
