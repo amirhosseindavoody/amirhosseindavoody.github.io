@@ -14,7 +14,7 @@ This is a personal knowledge base for circuit simulation and mathematical physic
 Inline math like the conductance matrix entry $G_{ij}$ and display equations such as
 
 $$
-\mathbf{J} = \mathbf{G}\,\mathbf{v} + \mathbf{i}_s
+\mathbf{J} = \mathbf{G}\thinspace \mathbf{v} + \mathbf{i}_s
 $$
 
 are rendered with KaTeX (via `theme/head.hbs`). Diagrams use Mermaid:

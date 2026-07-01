@@ -27,16 +27,16 @@ MNA introduces **extra unknowns** (typically branch currents or auxiliary variab
 
 $$
 \begin{bmatrix}
-\mathbf{G} & \mathbf{B} \\
+\mathbf{G} & \mathbf{B} \\\\
 \mathbf{C} & \mathbf{D}
 \end{bmatrix}
 \begin{bmatrix}
-\mathbf{v} \\
+\mathbf{v} \\\\
 \mathbf{i}_b
 \end{bmatrix}
 =
 \begin{bmatrix}
-\mathbf{i}_s \\
+\mathbf{i}_s \\\\
 \mathbf{e}_s
 \end{bmatrix}
 $$
@@ -72,11 +72,11 @@ and introduces branch current $i_s$ as an unknown. The stamp adds one row and on
 
 $$
 \begin{bmatrix}
-\cdots & +1 & \cdots & -1 & \cdots & 0 \\
-\vdots & & & & & \vdots \\
-+1 & & & & & 0 \\
--1 & & & & & 0 \\
-\vdots & & & & & \vdots \\
+\cdots & +1 & \cdots & -1 & \cdots & 0 \\\\
+\vdots & & & & & \vdots \\\\
++1 & & & & & 0 \\\\
+-1 & & & & & 0 \\\\
+\vdots & & & & & \vdots \\\\
 0 & 0 & \cdots & 0 & 0 & 0
 \end{bmatrix}
 \begin{bmatrix}

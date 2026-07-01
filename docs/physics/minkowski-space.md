@@ -13,7 +13,7 @@ $$
 The **line element** (invariant interval) between two events is
 
 $$
-ds^2 = \eta_{\mu\nu}\, dx^\mu dx^\nu = -dt^2 + dx^2 + dy^2 + dz^2
+ds^2 = \eta_{\mu\nu}\thinspace  dx^\mu dx^\nu = -dt^2 + dx^2 + dy^2 + dz^2
 $$
 
 Einstein summation convention applies. The signature $(-+++)$ is common in particle physics; $(+---)$ appears in some GR texts — physics is unchanged up to an overall sign convention.
@@ -46,9 +46,9 @@ Transformations preserving $\eta_{\mu\nu}$ form the **Lorentz group** $O(1,3)$. 
 $$
 \Lambda^\mu_{\ \nu} =
 \begin{pmatrix}
-\gamma & -\beta\gamma & 0 & 0 \\
--\beta\gamma & \gamma & 0 & 0 \\
-0 & 0 & 1 & 0 \\
+\gamma & -\beta\gamma & 0 & 0 \\\\
+-\beta\gamma & \gamma & 0 & 0 \\\\
+0 & 0 & 1 & 0 \\\\
 0 & 0 & 0 & 1
 \end{pmatrix},
 \quad

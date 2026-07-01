@@ -66,16 +66,11 @@ On GitHub: **Settings → General → Danger Zone → Change repository visibili
 
 **Settings → Pages → Build and deployment:**
 
-- **Source:** **GitHub Actions**
+- **Source:** **GitHub Actions** (not "Deploy from a branch")
 
-The workflow [`.github/workflows/pages.yml`](.github/workflows/pages.yml) builds with Pixi and deploys on every push to `main`.
+The workflow builds the mdBook site and deploys on every push to `main`. If **Source** is set to **Deploy from a branch**, GitHub serves raw Markdown via Jekyll instead of the built book — you'll see the README on the homepage, no sidebar navigation, and broken math rendering.
 
-If Pages is not enabled, the workflow fails with a link to the settings page. After enabling **GitHub Actions** as the source, re-run the latest failed workflow (or push to `main`).
-
-After Pages is working, optionally finish the branch rename:
-
-1. **Settings → General → Default branch** → set to `main`
-2. Delete the old `master` branch if it still exists
+The deployment workflow also sets Pages to GitHub Actions automatically when possible.
 
 ### 3. Restrict Pages visibility (important)
 

@@ -29,15 +29,19 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if gh api "repos/${{ github.repository }}/pages" >/dev/null 2>&1; then
-            echo "GitHub Pages is enabled"
-            exit 0
+          if ! gh api "repos/${{ github.repository }}/pages" >/dev/null 2>&1; then
+            echo "::error::GitHub Pages is not enabled for this repository."
+            echo "Open Settings → Pages, choose GitHub Actions as the source, and save."
+            echo "https://github.com/${{ github.repository }}/settings/pages"
+            exit 1
           fi
 
-          echo "::error::GitHub Pages is not enabled for this repository."
-          echo "Open Settings → Pages, choose GitHub Actions as the source, and save."
-          echo "https://github.com/${{ github.repository }}/settings/pages"
-          exit 1
+      - name: Use GitHub Actions for Pages deployment
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api -X PUT "repos/${{ github.repository }}/pages" \
+            -f build_type=workflow
 
       - name: Set up Pixi
         uses: prefix-dev/setup-pixi@v0.9.6
