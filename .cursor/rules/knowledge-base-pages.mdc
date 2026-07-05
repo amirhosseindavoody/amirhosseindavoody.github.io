@@ -1,0 +1,83 @@
+---
+description: Create mdBook knowledge base pages tailored to Amirhossein Davoody's background and expertise
+globs: docs/**
+alwaysApply: false
+---
+
+# Knowledge Base Page Authoring
+
+When creating or editing pages in this mdBook (`docs/`), read `docs/introduction.md` first and calibrate tone, depth, and assumed prerequisites to the author’s profile.
+
+## Reader profile (from introduction)
+
+- **Education:** BS electrical engineering (University of Tehran); PhD and two MS degrees from UW–Madison (ECE and physics).
+- **Research background:** Quantum transport and nanostructures; exciton transfer in carbon nanotubes; thermoelectric nanowires; quantum state evolution; cleanroom fabrication (sputtering, amorphous-silicon transistors).
+- **Industry:** Statistical methods for circuit modeling at Intel; prior reliability modeling and production data analysis; software engineering (Google).
+- **Current site topics:** Circuit simulation (SPICE, MNA, stamping), spacetime geometry, condensed-matter and device physics.
+
+**Default audience:** The author revisiting a topic — a working physicist/engineer with solid graduate-level QM, statistical mechanics, solid-state physics, and numerical methods. Not a textbook for undergraduates; not a research monograph with full proofs.
+
+## Voice and tone
+
+- First-person is optional; neutral technical voice is fine.
+- “Messy notebook energy” — working notes, not a polished textbook chapter.
+- Direct, precise prose. No filler intros (“In this section we will…”).
+- Connect theory to devices, transport, or computation when natural (the author’s instinct is application-aware).
+
+## Structure
+
+1. **Opening paragraph** — what the concept is and why it matters in one or two sentences.
+2. **Sections** with `##` headings; subsections with `###` when needed.
+3. **Close with links** to related pages in this repo when they exist (relative markdown links).
+4. Add the page to `docs/SUMMARY.md` under the appropriate section.
+
+## Math and notation
+
+- Use `$...$` for inline math and `$$...$$` for display equations (mdBook/KaTeX).
+- State conventions explicitly (metric signature, units, natural units, Fourier conventions) when they affect signs or factors of 2π.
+- Skip elementary derivations the reader already knows (e.g. basic Schrödinger equation, KCL). Spend depth on the non-obvious step or the physical insight.
+- Prefer standard physics/EE notation consistent with existing pages (`η_{μν}`, `G_{μν}`, MNA matrix blocks, etc.).
+
+## Visual aids
+
+- Use **tables** for comparisons, regimes, or symbol glossaries.
+- Use **mermaid** diagrams for flow, hierarchy, or phase diagrams when a figure clarifies structure (see `docs/physics/minkowski-space.md`).
+- Do not add images unless the user provides assets or explicitly requests them.
+
+## Depth calibration
+
+| Topic area | Assumed known | Emphasize |
+|------------|---------------|-----------|
+| Condensed matter / transport | Fermi surface, bands, scattering, second quantization basics | Many-body mechanisms, measurable signatures, nanoscale limits |
+| Circuit simulation | KCL/KVL, linear algebra, basic device models | Matrix structure, stamping, numerical stability |
+| Relativity / GR | Special relativity, tensors at a first-course level | Geometric meaning, index gymnastics, field equations |
+| Statistical / ML methods | Probability, estimation, linear models | Assumptions, failure modes, connection to physical models |
+
+When a topic spans areas (e.g. superconducting qubits), bridge from solid-state physics toward circuits or numerics as the author would.
+
+## Prerequisites and scope
+
+- List **Prerequisites** only when the page genuinely needs specific prior pages or courses; keep the list short.
+- State **Scope / out of scope** when the topic is large (e.g. “BCS mean-field only; no full Eliashberg numerics”).
+- Point to standard references (textbooks, review papers) sparingly — one line is enough.
+
+## What to avoid
+
+- Tutorial tone aimed at beginners with no physics background.
+- Exhaustive literature reviews or historical surveys unless requested.
+- Duplicating content that already exists on another page — link instead.
+- Creating markdown files outside `docs/` for book content (except Cursor rules in `.cursor/rules/`).
+- Changing `book.toml`, theme, CI, or deployment config unless the task requires it.
+
+## File conventions
+
+- Path: `docs/<section>/<slug>.md` (e.g. `docs/physics/bcs-superconductivity.md`).
+- Filename: lowercase, hyphen-separated.
+- Title: `# Title Case or Sentence case` matching existing pages (title case for named concepts: “Minkowski Space”, “Modified Nodal Analysis”).
+
+## Checklist before finishing
+
+- [ ] Page added to `docs/SUMMARY.md`
+- [ ] Math renders (balanced `$`/`$$`, no broken LaTeX)
+- [ ] At least one cross-link to a related page if applicable
+- [ ] Depth matches graduate physicist/engineer, not intro undergraduate
