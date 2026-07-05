@@ -1,7 +1,7 @@
 ---
 description: Create mdBook knowledge base pages tailored to Amirhossein Davoody's background and expertise
 globs: docs/**
-alwaysApply: false
+alwaysApply: true
 ---
 
 # Knowledge Base Page Authoring
