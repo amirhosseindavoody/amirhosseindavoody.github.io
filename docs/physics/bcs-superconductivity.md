@@ -35,9 +35,7 @@ flowchart LR
 In momentum space, restricting to the pairing channel:
 
 $$
-\mathcal{H} = \sum_{\mathbf{k},\sigma} \xi_{\mathbf{k}}\, c_{\mathbf{k}\sigma}^\dagger c_{\mathbf{k}\sigma}
-+ \sum_{\mathbf{k}} \left( \Delta\, c_{\mathbf{k}\uparrow}^\dagger c_{-\mathbf{k}\downarrow}^\dagger + \Delta^* c_{-\mathbf{k}\downarrow} c_{\mathbf{k}\uparrow} \right)
-+ \frac{|\Delta|^2}{g}
+\mathcal{H} = \sum_{\mathbf{k},\sigma} \xi_{\mathbf{k}}\thinspace c_{\mathbf{k}\sigma}^\dagger c_{\mathbf{k}\sigma} + \sum_{\mathbf{k}} \left( \Delta\thinspace c_{\mathbf{k}\uparrow}^\dagger c_{-\mathbf{k}\downarrow}^\dagger + \Delta^* c_{-\mathbf{k}\downarrow} c_{\mathbf{k}\uparrow} \right) + \frac{|\Delta|^2}{g}
 $$
 
 - $\xi_{\mathbf{k}} = \epsilon_{\mathbf{k}} - \mu$ is measured from the chemical potential (vanishes on the Fermi surface).
@@ -47,7 +45,10 @@ $$
 The quartic interaction that generates $\Delta$ is often written schematically as
 
 $$
-\mathcal{H}_{\text{int}} = -\frac{g}{V} \sum_{\mathbf{k}} c_{\mathbf{k}\uparrow}^\dagger c_{-\mathbf{k}\downarrow}^\dagger c_{-\mathbf{k}\downarrow} c_{\mathbf{k}\uparrow}
+\begin{aligned}
+\mathcal{H}\_{\text{int}} &= -\frac{g}{V} \sum\_\{\mathbf{k}\} c\_{\mathbf{k}\uparrow}^\dagger c\_{-\mathbf{k}\downarrow}^\dagger \\\\
+&\quad c\_{-\mathbf{k}\downarrow} c\_{\mathbf{k}\uparrow}
+\end{aligned}
 $$
 
 with $g$ nonzero only for $|\xi_{\mathbf{k}}| < \hbar\omega_D$ (Debye cutoff). Mean-field decoupling replaces the four-operator term by $\Delta c^\dagger c^\dagger + \text{h.c.}$ plus $|\Delta|^2/g$.
@@ -85,25 +86,25 @@ At $T = 0$, the self-consistency condition for $\Delta$ is
 $$
 1 = g \sum_{\mathbf{k}} \frac{1}{2E_{\mathbf{k}}}
 \quad \Rightarrow \quad
-1 = N(0)\, g \int_0^{\hbar\omega_D} \frac{d\xi}{\sqrt{\xi^2 + \Delta^0}}
+1 = N(0)\thinspace g \int_0^{\hbar\omega_D} \frac{d\xi}{\sqrt{\xi^2 + \Delta^0}}
 $$
 
 with $N(0)$ the normal-state density of states at the Fermi level. Evaluating the integral gives the **BCS gap equation**:
 
 $$
-\Delta^0 = 2\hbar\omega_D \exp\!\left(-\frac{1}{N(0)\, g}\right)
+\Delta^0 = 2\hbar\omega_D \exp\left(-\frac{1}{N(0)\thinspace g}\right)
 $$
 
 At finite $T$, thermal quasiparticle occupancy smears the gap:
 
 $$
-1 = N(0)\, g \int_0^{\hbar\omega_D} d\xi\; \frac{\tanh(E/2k_B T)}{\sqrt{\xi^2 + \Delta^2(T)}}
+1 = N(0)\thinspace g \int_0^{\hbar\omega_D} d\xi\thinspace \frac{\tanh(E/2k_B T)}{\sqrt{\xi^2 + \Delta^2(T)}}
 $$
 
 The gap vanishes at **$T_c$** where the linearized equation yields
 
 $$
-k_B T_c = \frac{2 e^\gamma}{\pi}\, \hbar\omega_D \exp\!\left(-\frac{1}{N(0)\, g}\right), \quad \gamma \approx 0.5772\ \text{(Euler–Mascheroni)}
+k_B T_c = \frac{2 e^\gamma}{\pi}\thinspace \hbar\omega_D \exp\left(-\frac{1}{N(0)\thinspace g}\right), \quad \gamma \approx 0.5772\quad \text{(Euler–Mascheroni)}
 $$
 
 **Weak-coupling BCS ratios** (useful sanity checks):
@@ -122,7 +123,7 @@ Near $T_c$, a **Ginzburg–Landau (GL)** expansion in $|\psi|^2$ captures the sa
 **London equation** (local limit, $T \ll T_c$):
 
 $$
-\nabla \times \mathbf{j}_s = -\frac{n_s e^2}{m}\, \mathbf{B}
+\nabla \times \mathbf{j}_s = -\frac{n_s e^2}{m}\thinspace \mathbf{B}
 $$
 
 Persistent supercurrents screen magnetic fields over $\lambda_L$ — the **Meissner effect**. A superconductor in an applied field is not merely a zero-resistance conductor; it is a **perfect diamagnet** (up to flux quantization and vortex physics in Type II materials).
@@ -146,7 +147,7 @@ For someone coming from **nanostructures and transport**, the same pairing physi
 The quasiparticle **DOS** (per spin) is
 
 $$
-N_s(E) = N(0)\, \frac{|E|}{\sqrt{E^2 - \Delta^2}}, \qquad |E| > \Delta
+N_s(E) = N(0)\thinspace \frac{|E|}{\sqrt{E^2 - \Delta^2}}, \qquad |E| > \Delta
 $$
 
 with a **square-root van Hove singularity** at $|E| = \Delta$. Tunneling spectroscopy (STM on superconductors, or planar junction $dI/dV$) measures this directly — a clean experimental handle on $\Delta$ and, with strong coupling, phonon structure (Eliashberg regime).
