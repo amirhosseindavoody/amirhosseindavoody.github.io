@@ -35,12 +35,14 @@ flowchart LR
 In momentum space, restricting to the pairing channel:
 
 $$
-\mathcal{H} = \sum_{\mathbf{k},\sigma} \xi_{\mathbf{k}}\thinspace c_{\mathbf{k}\sigma}^\dagger c_{\mathbf{k}\sigma} + \sum_{\mathbf{k}} \left( \Delta\thinspace c_{\mathbf{k}\uparrow}^\dagger c_{-\mathbf{k}\downarrow}^\dagger + \Delta^* c_{-\mathbf{k}\downarrow} c_{\mathbf{k}\uparrow} \right) + \frac{|\Delta|^2}{g}
+\begin{aligned}
+\mathcal{H} ={}& \sum_{\mathbf{k},\sigma} \xi_{\mathbf{k}}\thinspace c_{\mathbf{k}\sigma}^\dagger c_{\mathbf{k}\sigma} \\\\
+&\quad + \sum_{\mathbf{k}} \left( \Delta\thinspace c_{\mathbf{k}\uparrow}^\dagger c_{-\mathbf{k}\downarrow}^\dagger + \Delta^* c_{-\mathbf{k}\downarrow} c_{\mathbf{k}\uparrow} \right) \\\\
+&\quad + \frac{|\Delta|^2}{g}
+\end{aligned}
 $$
 
-- $\xi_{\mathbf{k}} = \epsilon_{\mathbf{k}} - \mu$ is measured from the chemical potential (vanishes on the Fermi surface).
-- $\Delta$ is the **pair potential** (order parameter), determined self-consistently.
-- $g > 0$ is the effective pairing coupling (phonon-mediated attraction in the reduced model).
+Here $\xi_{\mathbf{k}} = \epsilon_{\mathbf{k}} - \mu$ is measured from the chemical potential (vanishes on the Fermi surface). $\Delta$ is the **pair potential** (order parameter), determined self-consistently. $g > 0$ is the effective pairing coupling (phonon-mediated attraction in the reduced model).
 
 The quartic interaction that generates $\Delta$ is often written schematically as
 
