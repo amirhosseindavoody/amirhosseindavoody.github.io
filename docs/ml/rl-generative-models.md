@@ -6,10 +6,10 @@ Supervised training of generative networks maximizes likelihood of observed samp
 
 ## Why leave maximum likelihood?
 
-Maximum likelihood (MLE / cross-entropy) for a generative model $p_\theta$ fits the training distribution:
+Maximum likelihood (MLE / cross-entropy) for a generative model $p_{\theta}$ fits the training distribution:
 
 $$
-\theta^\star = \arg\max_\theta\thinspace \mathbb{E}_{x \sim \mathcal{D}}\bigl[\log p_\theta(x)\bigr]
+\theta^\star = \arg\max_{\theta}\thinspace \mathbb{E}\_{x \sim \mathcal{D}}\bigl[\log p_{\theta}(x)\bigr]
 $$
 
 Problems that show up in practice:
@@ -19,7 +19,7 @@ Problems that show up in practice:
 | **Proxy mismatch** | Human preference, win rate, or code-pass@k are not log-likelihood |
 | **Exposure bias** | Teacher forcing trains on gold prefixes; at inference the model conditions on its own errors |
 | **Mode covering** | MLE spreads mass over all training modes; often you want *preferred* modes |
-| **Non-differentiable scores** | BLEU, compiler pass/fail, human rankings — no $\nabla_\theta$ through the scorer |
+| **Non-differentiable scores** | BLEU, compiler pass/fail, human rankings — no $\nabla_{\theta}$ through the scorer |
 
 RL reframes generation as sequential decision-making and optimizes $\mathbb{E}[R]$ under a reward that can be sparse, learned, or black-box.
 
@@ -29,36 +29,36 @@ For an **autoregressive** model (LLM, pixelCNN-style decoder), one natural MDP i
 
 | MDP object | Generative reading |
 |------------|--------------------|
-| State $s_t$ | Prompt + tokens generated so far, $x_{<t}$ |
-| Action $a_t$ | Next token $x_t$ from vocabulary $\mathcal{V}$ |
-| Policy $\pi_\theta(a_t \mid s_t)$ | Softmax over logits: $p_\theta(x_t \mid x_{<t})$ |
-| Transition | Deterministic append: $s_{t+1} = (s_t, a_t)$ |
+| State $s_{t}$ | Prompt + tokens generated so far, $x_{<t}$ |
+| Action $a_{t}$ | Next token $x_{t}$ from vocabulary $\mathcal{V}$ |
+| Policy $\pi_{\theta}(a_{t} \mid s_{t})$ | Softmax over logits: $p_{\theta}(x_{t} \mid x_{<t})$ |
+| Transition | Deterministic append: $s_{t+1} = (s_{t}, a_{t})$ |
 | Reward $R$ | Usually **terminal** (end of sequence), sometimes shaped per step |
 
-A trajectory is a full completion $y = (y_1,\ldots,y_T)$ given prompt $x$:
+A trajectory is a full completion $y = (y_{1},\ldots,y_{T})$ given prompt $x$:
 
 $$
-\pi_\theta(y \mid x) = \prod_{t=1}^{T} \pi_\theta(y_t \mid x, y_{<t})
+\pi_{\theta}(y \mid x) = \prod_{t=1}^{T} \pi_{\theta}(y_{t} \mid x, y_{<t})
 $$
 
-The RL objective is expected reward (often with a KL penalty back to a reference policy $\pi_{\text{ref}}$ — see below):
+The RL objective is expected reward (often with a KL penalty back to a reference policy $\pi_{\mathrm{ref}}$ — see below):
 
 $$
-J(\theta) = \mathbb{E}_{x \sim \mathcal{D},\thinspace y \sim \pi_\theta(\cdot\mid x)}\bigl[R(x,y)\bigr]
+J(\theta) = \mathbb{E}\_{x \sim \mathcal{D},\thinspace y \sim \pi_{\theta}(\cdot\mid x)}\bigl[R(x,y)\bigr]
 $$
 
 **Diffusion / flow** models can be cast similarly (denoising steps as actions), but the dominant industrial use of RL for generative models is still **token-level policies** with sequence-level rewards. The rest of this note focuses on that case.
 
 ```mermaid
 flowchart LR
-    P[Prompt x] --> S0[State: prefix]
-    S0 --> A[Sample token]
-    A --> S1[Append]
+    P["Prompt x"] --> S0["State: prefix"]
+    S0 --> A["Sample token"]
+    A --> S1["Append"]
     S1 --> A
-    S1 --> Done{EOS / max len?}
+    S1 --> Done{"EOS or max len?"}
     Done -->|No| A
-    Done -->|Yes| R[Reward R(x,y)]
-    R --> Upd[Policy update]
+    Done -->|Yes| R["Reward R(x,y)"]
+    R --> Upd["Policy update"]
 ```
 
 ## Policy gradient backbone
@@ -66,22 +66,22 @@ flowchart LR
 The score-function (REINFORCE) identity gives an unbiased gradient without differentiating through $R$:
 
 $$
-\nabla_\theta J(\theta) = \mathbb{E}_{y \sim \pi_\theta}\Bigl[ R(x,y)\thinspace \nabla_\theta \log \pi_\theta(y \mid x) \Bigr]
+\nabla_{\theta} J(\theta) = \mathbb{E}\_{y \sim \pi_{\theta}}\Bigl[ R(x,y)\thinspace \nabla_{\theta} \log \pi_{\theta}(y \mid x) \Bigr]
 $$
 
 For autoregressive policies,
 
 $$
-\nabla_\theta \log \pi_\theta(y \mid x) = \sum_{t=1}^{T} \nabla_\theta \log \pi_\theta(y_t \mid x, y_{<t})
+\nabla_{\theta} \log \pi_{\theta}(y \mid x) = \sum_{t=1}^{T} \nabla_{\theta} \log \pi_{\theta}(y_{t} \mid x, y_{<t})
 $$
 
 so credit from a **sequence-level** reward is smeared across all tokens — high variance. Practical systems reduce variance with:
 
 - **Baselines** $b(x)$: replace $R$ by $R - b$ (advantage-like)
-- **Learned critics** $V_\phi(s_t)$ (actor–critic / GAE as in PPO)
+- **Learned critics** $V_{\phi}(s_{t})$ (actor–critic / GAE as in PPO)
 - **Group comparisons** of several samples for the same prompt (GRPO-style)
 
-Importance sampling and clipping (PPO) keep updates from leaving the trust region of the data collected under an older policy $\pi_{\theta_{\text{old}}}$.
+Importance sampling and clipping (PPO) keep updates from leaving the trust region of the data collected under an older policy $\pi_{\theta_{\mathrm{old}}}$.
 
 ## The RLHF stack (language models)
 
@@ -89,26 +89,26 @@ Importance sampling and clipping (PPO) keep updates from leaving the trust regio
 
 ```mermaid
 flowchart TB
-    PT[Pretrained LM] --> SFT[SFT on demos]
-    SFT --> RM[Train reward model on preferences]
-    SFT --> RL[RL fine-tune policy]
+    PT["Pretrained LM"] --> SFT["SFT on demos"]
+    SFT --> RM["Train reward model on preferences"]
+    SFT --> RL["RL fine-tune policy"]
     RM --> RL
-    RL --> Out[Aligned policy π_θ]
+    RL --> Out["Aligned policy"]
 ```
 
 ### 1. Supervised fine-tuning (SFT)
 
-Start from a pretrained LM; fine-tune on high-quality (prompt, response) demos. This yields $\pi_{\text{SFT}}$ — a competent but not preference-optimized policy. It also becomes the usual **reference** $\pi_{\text{ref}}$ for the KL term.
+Start from a pretrained LM; fine-tune on high-quality (prompt, response) demos. This yields $\pi_{\mathrm{SFT}}$ — a competent but not preference-optimized policy. It also becomes the usual **reference** $\pi_{\mathrm{ref}}$ for the KL term.
 
 ### 2. Reward model from preferences
 
-Collect pairwise (or ranked) human comparisons: for prompt $x$, prefer $y_w$ over $y_l$. Fit a scalar reward model $r_\phi(x,y)$ under a Bradley–Terry likelihood:
+Collect pairwise (or ranked) human comparisons: for prompt $x$, prefer $y_{w}$ over $y_{l}$. Fit a scalar reward model $r_{\phi}(x,y)$ under a Bradley–Terry likelihood:
 
 $$
-p(y_w \succ y_l \mid x) = \sigma\bigl(r_\phi(x,y_w) - r_\phi(x,y_l)\bigr)
+p(y_{w} \succ y_{l} \mid x) = \sigma\bigl(r_{\phi}(x,y_{w}) - r_{\phi}(x,y_{l})\bigr)
 $$
 
-$r_\phi$ is typically another LM with a scalar head. Once trained, it stands in for the human as a **dense-enough** (still usually terminal) reward for RL.
+$r_{\phi}$ is typically another LM with a scalar head. Once trained, it stands in for the human as a **dense-enough** (still usually terminal) reward for RL.
 
 ### 3. RL fine-tuning with KL regularization
 
@@ -116,22 +116,22 @@ Optimize
 
 $$
 \begin{aligned}
-J(\theta) ={}& \mathbb{E}_{x,y \sim \pi_\theta}\bigl[r_\phi(x,y)\bigr] \\\\
-&\quad - \beta\thinspace \mathbb{E}_{x}\bigl[D_{\mathrm{KL}}\bigl(\pi_\theta(\cdot\mid x)\Vert \pi_{\text{ref}}(\cdot\mid x)\bigr)\bigr]
+J(\theta) ={}& \mathbb{E}\_{x,y \sim \pi_{\theta}}\bigl[r_{\phi}(x,y)\bigr] \\\\
+&\quad - \beta\thinspace \mathbb{E}\_{x}\bigl[D_{\mathrm{KL}}\bigl(\pi_{\theta}(\cdot\mid x)\Vert \pi_{\mathrm{ref}}(\cdot\mid x)\bigr)\bigr]
 \end{aligned}
 $$
 
-The KL term is not optional decoration: without it the policy **hacks** $r_\phi$ (gibberish that scores high, length gaming, reward-model exploits) and drifts from fluent language. Equivalently one maximizes expected **regularized** reward
+The KL term is not optional decoration: without it the policy **hacks** $r_{\phi}$ (gibberish that scores high, length gaming, reward-model exploits) and drifts from fluent language. Equivalently one maximizes expected **regularized** reward
 
 $$
-R_{\text{eff}}(x,y) = r_\phi(x,y) - \beta \log\frac{\pi_\theta(y\mid x)}{\pi_{\text{ref}}(y\mid x)}
+R_{\mathrm{eff}}(x,y) = r_{\phi}(x,y) - \beta \log\frac{\pi_{\theta}(y\mid x)}{\pi_{\mathrm{ref}}(y\mid x)}
 $$
 
 **PPO** has been the workhorse optimizer (clipped surrogate + value head). Alternatives that avoid an explicit online RL loop are discussed next.
 
 ## Preference optimization without an RL loop
 
-If the goal is “match a preference distribution under KL to $\pi_{\text{ref}}$,” the optimal policy has a closed form in terms of the reward. **Direct Preference Optimization (DPO)** and relatives rearrange that so you never train $r_\phi$ or run PPO: you optimize a classification-style loss on preference pairs directly in policy space.
+If the goal is “match a preference distribution under KL to $\pi_{\mathrm{ref}}$,” the optimal policy has a closed form in terms of the reward. **Direct Preference Optimization (DPO)** and relatives rearrange that so you never train $r_{\phi}$ or run PPO: you optimize a classification-style loss on preference pairs directly in policy space.
 
 | Method | What you train | Online sampling? |
 |--------|----------------|------------------|
@@ -146,7 +146,7 @@ DPO is often enough for chat alignment; online RL (PPO/GRPO) still matters when 
 
 A growing pattern for reasoning / code models: skip the learned reward model and use **ground-truth checkers** — pass/fail on unit tests, exact match on math, format constraints. Call this **RL with verifiable rewards (RLVR)** informally.
 
-- Reward is sparse and objective → less reward hacking of a learned $r_\phi$, but still hacking of the checker (hardcoded answers, trivial programs).
+- Reward is sparse and objective → less reward hacking of a learned $r_{\phi}$, but still hacking of the checker (hardcoded answers, trivial programs).
 - Group-relative methods (sample $K$ completions, normalize advantages within the group) fit well: no value network required.
 - Process rewards (step-level) vs outcome rewards (final answer) trade annotation cost against credit assignment.
 
@@ -160,13 +160,13 @@ Same idea, different action space:
 - **Discrete latent policies** (VQ tokens) look like language-model RL again.
 - **Diffusion RL** needs care: the generative process is a long denoising chain; many methods use truncated / single-step surrogates or optimize only late steps.
 
-The conceptual map is unchanged: define $\pi_\theta$, define $R$, control divergence from a reference generator.
+The conceptual map is unchanged: define $\pi_{\theta}$, define $R$, control divergence from a reference generator.
 
 ## Failure modes worth remembering
 
 | Failure | Symptom | Mitigation |
 |---------|---------|------------|
-| **Reward hacking** | High $r_\phi$, worse humans | KL to $\pi_{\text{ref}}$; refresh RM; verifiable $R$ |
+| **Reward hacking** | High $r_{\phi}$, worse humans | KL to $\pi_{\mathrm{ref}}$; refresh RM; verifiable $R$ |
 | **Over-optimization** | Goodhart’s law on proxy | Early stop; mix SFT; evaluate offline prefs |
 | **Mode collapse** | Low diversity, repetitive style | Entropy / KL bonuses; diverse prompts |
 | **Length bias** | Verbose answers win | Length-normalize rewards; train RM carefully |
@@ -174,8 +174,8 @@ The conceptual map is unchanged: define $\pi_\theta$, define $R$, control diverg
 
 ## Practical mental model
 
-1. **Pretrain / SFT** → fluent generative prior $\pi_{\text{ref}}$.
-2. **Define success** → human prefs, learned $r_\phi$, or verifiable checker.
+1. **Pretrain / SFT** → fluent generative prior $\pi_{\mathrm{ref}}$.
+2. **Define success** → human prefs, learned $r_{\phi}$, or verifiable checker.
 3. **Optimize expected reward** under a **trust region** (KL / PPO clip / DPO implicit constraint).
 4. **Evaluate** on held-out preferences and real tasks — the training reward is a proxy.
 
