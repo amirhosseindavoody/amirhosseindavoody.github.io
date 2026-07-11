@@ -22,3 +22,4 @@
 # Machine Learning
 
 - [Reinforcement Learning for Generative Models](./ml/rl-generative-models.md)
+- [RL for Neural Posterior Estimation](./ml/rl-neural-posterior-estimation.md)

@@ -183,6 +183,7 @@ RL does not replace representation learning in the base model; it **steers** an 
 
 ## Related notes
 
+- [RL for Neural Posterior Estimation](./rl-neural-posterior-estimation.md) — same RL toolkit on the *outer* loop of simulation-based inference (proposals, active simulation, calibration rewards), not chat alignment.
 - Statistical estimation and model misspecification show up the same way in circuit modeling proxies — optimize the metric you mean, then distrust it (no dedicated page yet).
 - [Modified Nodal Analysis](../spice/modified-nodal-analysis.md) — unrelated domain, same habit: state the unknowns and the objective before choosing an optimizer.
 
