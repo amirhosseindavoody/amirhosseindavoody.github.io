@@ -23,13 +23,17 @@ When creating or editing pages in this mdBook (`docs/`), read `docs/introduction
 - “Messy notebook energy” — working notes, not a polished textbook chapter.
 - Direct, precise prose. No filler intros (“In this section we will…”).
 - Connect theory to devices, transport, or computation when natural (the author’s instinct is application-aware).
+- **Prose over outline.** Prefer developed paragraphs that explain mechanism and tradeoffs. Do not leave a section as a telegraphic bullet list of name-drops; if a list helps, follow it with enough prose that a revisiting graduate physicist/engineer knows *what the thing does* and *why it matters here*.
+- **Name + role.** When mentioning an architecture, method, or paper shorthand (e.g. “coupling flows,” “ASNPE”), add one clear clause on its role in the argument — not a literature laundry list, not a slogan.
+- **Living tone rules.** When the user asks to change detail level, verbosity, or tone for knowledge-base pages, update *this* Cursor rule to capture the new preference so later edits stay consistent.
 
 ## Structure
 
 1. **Opening paragraph** — what the concept is and why it matters in one or two sentences.
 2. **Sections** with `##` headings; subsections with `###` when needed.
-3. **Close with links** to related pages in this repo when they exist (relative markdown links).
-4. Add the page to `docs/SUMMARY.md` under the appropriate section.
+3. Develop each major idea enough to stand alone on a revisit — motivation, the non-obvious step, and the practical failure mode — rather than a skim of bullet headings.
+4. **Close with links** to related pages in this repo when they exist (relative markdown links).
+5. Add the page to `docs/SUMMARY.md` under the appropriate section.
 
 ## Math and notation
 
@@ -66,9 +70,11 @@ When a topic spans areas (e.g. superconducting qubits), bridge from solid-state 
 
 - Tutorial tone aimed at beginners with no physics background.
 - Exhaustive literature reviews or historical surveys unless requested.
+- Outline-only pages: sections that merely list buzzwords or paper names without explaining the mechanism.
 - Duplicating content that already exists on another page — link instead.
 - Creating markdown files outside `docs/` for book content (except Cursor rules in `.cursor/rules/`).
 - Changing `book.toml`, theme, CI, or deployment config unless the task requires it.
+- Ignoring user feedback on tone or detail level — fold those preferences back into this rule file when they recur or are stated as a standing preference.
 
 ## File conventions
 
@@ -82,3 +88,5 @@ When a topic spans areas (e.g. superconducting qubits), bridge from solid-state 
 - [ ] Math renders (balanced `$`/`$$`, no broken LaTeX)
 - [ ] At least one cross-link to a related page if applicable
 - [ ] Depth matches graduate physicist/engineer, not intro undergraduate
+- [ ] Major sections are developed prose (mechanism + tradeoff), not outline-only bullets
+- [ ] If the user changed tone/detail preferences this turn, this rule file was updated to match
