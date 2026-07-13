@@ -45,7 +45,9 @@ $$
 \phi^\star = \arg\max_{\phi}\thinspace \mathbb{E}\_{\theta \sim p(\theta),\thinspace x \sim g(\theta)}\bigl[\log q_{\phi}(\theta \mid x)\bigr]
 $$
 
-Backbones are whatever conditional density estimators are current: coupling and autoregressive normalizing flows, continuous-time flow matching, diffusion / score models. Once trained, inference for a new $x_{o}$ is a forward sampling (or density) call — **amortized** inference. Pay the simulation cost once; reuse $q_{\phi}$ across many observations.
+The network behind $q_{\phi}$ has to represent a flexible family of conditional densities on $\theta$ given $x$. In practice that means a **normalizing flow** (coupling layers such as RealNVP, or autoregressive flows such as MAF / NSF), or a more recent generative backbone such as **flow matching** or a **diffusion / score model** trained to sample $\theta \mid x$. Flows give exact densities and were the NPE default for a long time; diffusion-style models trade that for expressivity in higher-dimensional $\theta$. The outer-loop RL discussion below does not depend on which backbone you pick — only that you can sample from $q_{\phi}(\cdot \mid x)$ (and, for some utilities, evaluate or approximate its density / entropy).
+
+Once trained, inference for a new $x_{o}$ is a forward sampling (or density) call — **amortized** inference. Pay the simulation cost once; reuse $q_{\phi}$ across many observations.
 
 | Method | Learns | At inference |
 |--------|--------|--------------|
